@@ -38,7 +38,6 @@ A **Random Forest Regressor** (500 estimators) maps stressors to structural outc
 
 ## 📂 Repository Structure
 ```text
-
 ├── app.py                               # Streamlit Dashboard & Predictive Engine
 ├── requirements.txt                     # Dependencies (GeoPandas, Scikit-Learn, etc.)
 ├── README.md                  
