@@ -45,6 +45,10 @@ A **Random Forest Regressor** (500 estimators) maps stressors to structural outc
 ├── data/                       
 │   ├── Armenia_ML_Training_Data.parquet # 4,338 standardized pixel observations
 │   └── arm_admin0.geojson               # National boundary file
+├── development_pipeline/       # Research Methodology & Model Development
+    ├── 01_Bioclimatic_Grid_Standardization.ipynb
+    ├── 02_Climate_Stressor_Feature_Engineering.ipynb
+    └── 03_Random_Forest_Calibration_and_SHAP.ipynb
 └── models/                    
     └── RF_FVS_Model.joblib              # Trained Random Forest Regressor
 ```
