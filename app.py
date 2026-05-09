@@ -18,9 +18,9 @@ st.set_page_config(
 def load_assets():
     # Assets generated in project development (Notebooks 01-05)
     # df_forest contains the 4,338 pixels identified at 1km resolution
-    df = pd.read_parquet('Armenia_ML_Training_Data.parquet')
-    arm_border = gpd.read_file('arm_admin0.geojson')
-    model = joblib.load('RF_FVS_Model.joblib')
+    df = pd.read_parquet('data/Armenia_ML_Training_Data.parquet')
+    arm_border = gpd.read_file('data/arm_admin0.geojson')
+    model = joblib.load('models/RF_FVS_Model.joblib')
     return df, arm_border, model
 
 try:
