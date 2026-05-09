@@ -49,7 +49,8 @@ $$FVS = \left(\frac{\sigma(H)_{2017} - \sigma(H)_{predicted}}{\sigma(H)_{2017}} 
 ├── development_pipeline/                # Research Methodology & Model Development
     ├── 01_Bioclimatic_Grid_Standardization.ipynb
     ├── 02_Climate_Stressor_Feature_Engineering.ipynb
-    └── 03_Random_Forest_Calibration_and_SHAP.ipynb
+    ├── 03_Random_Forest_Calibration_and_SHAP.ipynb
+    └── emissions.csv
 └── models/                    
     └── RF_FVS_Model.joblib              # Trained Random Forest Regressor
 ```
@@ -92,5 +93,7 @@ The model training phase (Random Forest ensemble with 500 estimators) was monito
 This audit ensures that the reforestation strategies proposed by the framework do not ignore the carbon debt incurred by the computational tools used to design them. The negligible footprint of **0.000041 kg CO2** confirms that the framework provides high-resolution predictive power without significant environmental overhead, ensuring a net-positive impact for the **FORACCA** initiative.
 
 > 📊 *The detailed environmental audit log can be found in `development_pipeline/emissions.csv`.*
+
+> **Academic Status:** This repository contains the validated computational framework developed for a Bachelor of Science Capstone at the American University of Armenia. The full formal thesis and associated manuscript are currently undergoing peer review for scientific publication. For inquiries regarding the full text or collaboration, please contact the author at nar.ohanyan.eco@gmail.com.
 ---
 *© 2026 Narek Ohanyan. Developed as part of the BSCS Capstone at the American University of Armenia.*
