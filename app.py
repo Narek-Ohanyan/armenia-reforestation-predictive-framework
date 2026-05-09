@@ -17,6 +17,7 @@ st.set_page_config(
 @st.cache_resource
 def load_assets():
     # Assets generated in project development (Notebooks 01-05)
+    # df_forest contains the 4,338 pixels identified at 1km resolution
     df = pd.read_parquet('Armenia_ML_Training_Data.parquet')
     arm_border = gpd.read_file('arm_admin0.geojson')
     model = joblib.load('RF_FVS_Model.joblib')
@@ -35,47 +36,54 @@ st.markdown("""
         <p style="font-size: 1.2em; color: #555; margin-bottom: 15px;"><b><i>Climate-Smart Reforestation and Resilience Mapping in Armenia</i></b></p>
         <hr style="border: 0.5px solid #ddd;">
         <table style="width: 100%; border: none; font-size: 0.95em; color: #333;">
-            <tr><td><b>Lead Researcher:</b> Narek Ohanyan</td><td><b>Date:</b> May, 2026</td></tr>
-            <tr><td><b>Institution:</b> American University of Armenia</td><td><b>Department:</b> Computer Science / Environmental Sciences</td></tr>
+            <tr><td><b>Author:</b> Narek Ohanyan</td><td><b>Date:</b> May, 2026</td></tr>
+            <tr><td><b>Institution:</b> American University of Armenia</td><td><b>Subject:</b> BSCS Capstone Project</td></tr>
         </table>
     </div>
 """, unsafe_allow_html=True)
 
-# --- 4. Detailed Methodology & Mathematical Framework ---
-with st.expander("🔬 Methodology: Temporal Calibration & The Climate Stressor Integral"):
+# --- 4. Refined Methodology & Mathematical Framework ---
+with st.expander("🔬 Methodology: Computational Calibration & Bioclimatic Stacking"):
     st.markdown("""
-    ### **1. Spatiotemporal Scale & Baseline Epochs**
-    The framework establishes a rigorous temporal alignment between historical observations and future projections to ensure climate-sensitivity calibration:
-    * **Observational Baseline (1979–2018):** Utilizing CHELSA V2.1 high-resolution data to establish the stable climatic envelope.
-    * **Training Epoch (1979–2000):** Initial model calibration on historical growing season means.
-    * **Validation/Hindcasting Epoch (2001–2018):** Testing model accuracy against observed structural maintenance or degradation.
-    * **Projection Horizons:** Medium-term (**2041–2060**) and Long-term (**2081–2100**) based on CMIP6 pathways.
+    ### **1. Geospatial Integration & Temporal Baselines**
+    The framework utilizes a multi-decadal supervised learning architecture to correlate bioclimatic variables with physical forest structure.
+    * **Historical Training Period (1979–2000):** Baseline climate means were established to define the "stable" ecological state.
+    * **Validation & Hindcasting (2000–2018):** Evaluation of forest structural response to observed climate anomalies.
+    * **Structural Baseline (2017):** Derived from Sentinel-2 Vegetation Height Models (VHM) at 10m, then aggregated to a **standardized 1 km² grid**.
 
-    ### **2. The Climate Stressor Integral Formula**
-    As implemented in the analytical notebooks, the model assumes that forest vulnerability is a function of cumulative climatic stress accumulated during the physiological window. The total stressor intensity ($S$) for a pixel ($p$) is the integral of weighted deltas over the **Growing Season (GS)**:
+    ### **2. The Integrated Climate Stressor Formula**
+    The vulnerability logic is governed by the cumulative climatic stressor intensity relative to the initial structural complexity ($\sigma H$). The total stress for a pixel ($p$) under a scenario ($s$) is calculated as the integral of weighted stressors across the **Growing Season (May–September)**:
     """)
     
-    st.latex(r"S(p, s) = \int_{May}^{Sept} \left[ \alpha \cdot \Delta VPD(p, m, s) + \beta \cdot \Delta T_{max}(p, m, s) + \gamma \cdot \Delta P(p, m, s) \right] dm")
+    st.latex(r"Stress(p, s) = \int_{May}^{Sept} \frac{1}{\sigma(H)} \left( \alpha \cdot \Delta vpd(p, m, s) + \beta \cdot \Delta T_{max}(p, m, s) + \gamma \cdot \Delta P(p, m, s) \right) dm")
     
     st.markdown("""
-    Where:
-    * **$m$**: Month within the Growing Season (May through September).
-    * **$\Delta VPD$**: Vapor Pressure Deficit anomaly (Atmospheric demand).
-    * **$\Delta T_{max}$**: Maximum Temperature anomaly (Thermal stress).
-    * **$\Delta P$**: Precipitation anomaly (Hydraulic supply).
-    * **$\alpha, \beta, \gamma$**: Sensitivity coefficients derived via Random Forest feature attribution.
+    ### **3. Bioclimatic Predictors & Feature Engineering**
+    * **$\Delta$ Variables:** Computed as the difference between the projection years (2041–2060 or 2081–2100) and the historical baseline.
+    * **$\sigma(H)^{-1}$ Normalization:** By multiplying the integral by the inverse of the standard deviation of canopy height, the framework accounts for the higher relative vulnerability of complex vertical structures to atmospheric demand.
+    * **Stability Proof:** Using the **Hansen Global Forest Change (2000–2023) dataset**, we programmatically filtered pixels to ensure the 2017 baseline represents stable forest cover devoid of anthropogenic disturbance.
 
-    ### **3. Structural Metric: Vertical Heterogeneity ($\sigma H$)**
-    Forest resilience is quantified through the Standard Deviation of Canopy Height ($\sigma H$), processed at a **1 km² spatial resolution**. This metric captures the vertical complexity of the ecosystem, which is highly sensitive to long-term climatic debt.
+    ### **4. Random Forest Calibration & Interpretability**
+    A **Random Forest Regressor** (500 estimators) was trained to map these stressors to structural outcomes. 
+    * **Performance Metrics:** $R^2 = 0.292$ | Mean Absolute Error (MAE) = **1.799 meters**.
+    * **SHAP Interpretability:** Feature importance was derived using Shapley values to identify dominant drivers:
+        - **$\alpha$ (Δ VPD):** 34.9% (Atmospheric Drying Power)
+        - **$\beta$ (Δ Tmax):** 31.4% (Metabolic Respiration Cost)
+        - **$\gamma$ (Δ Prec):** 33.7% (Hydraulic Stress)
     """)
-    st.latex(r"\sigma H = \sqrt{\frac{1}{N} \sum_{i=1}^{N} (H_i - \bar{H})^2}")
 
+with st.expander("📖 User Guide: Output Interpretation"):
     st.markdown("""
-    ### **4. Validation Performance & SHAP Attribution**
-    The model achieves an **MAE of 1.799m** in predicting structural complexity. Using **SHAP (SHapley Additive exPlanations)**, we mathematically verified that **VPD (34.9%)** and **Precipitation (33.7%)** are the co-dominant drivers of structural vulnerability in the Armenian highland context.
+    ### **1. Forest Vulnerability Score (FVS)**
+    The FVS quantifies the percentage of structural loss predicted under climate forcing compared to the validated 2017 reference state:
+    """)
+    st.latex(r"FVS = \left( \frac{\sigma(H)_{2017} - \sigma(H)_{predicted}}{\sigma(H)_{2017}} \right) \times 100")
+    st.markdown("""
+    * **Historical Baseline:** Represents the observed 2017 state (1979-2018 stable average).
+    * **IPCC Scenarios:** CMIP6 projections for the **Medium-Term (2050)** and **Long-Term (2090)**.
     """)
 
-# --- 5. Model Constants & Projections ---
+# --- 5. Model Constants ---
 vmax_vpd = df_forest['Delta_VPD_GS'].quantile(0.99)
 vmax_temp = df_forest['Delta_Tmax_GS'].quantile(0.99)
 vmin_prec = df_forest['Delta_P_GS'].quantile(0.01)
@@ -113,13 +121,13 @@ elif mode == 'Custom Forcing':
     dp = st.sidebar.slider('Δ Prec (kg/m²/mo)', -150, 100, 0)
     dv = st.sidebar.slider('Δ VPD (Pa)', 0.0, 1.0, 0.0)
 
-# --- 7. Predictive Run & Visualization ---
+# --- 7. Predictive Run ---
 if mode == 'Historical Baseline':
     y_vals = df_forest['vhm_std']
     title, vmin, vmax, cmap, unit = "Historical Baseline Structure (2017)", 0, 8, 'RdYlGn', "m"
     subtitle = "1 km Grid | 1979-2018 Observational Stable State"
 else:
-    # Applying the Delta logic to the features
+    # Feature Engineering with .clip()
     X_in = pd.DataFrame({
         'Delta_VPD_GS': (df_forest['Delta_VPD_GS'] + dv).clip(upper=vmax_vpd),
         'Delta_Tmax_GS': (df_forest['Delta_Tmax_GS'] + dt).clip(upper=vmax_temp),
@@ -128,16 +136,16 @@ else:
     y_pred = rf_model.predict(X_in)
     
     if metric == 'fvs':
-        # Vulnerability = Relative loss from 2017 Baseline
         y_vals = ((df_forest['vhm_std'] - y_pred) / df_forest['vhm_std'] * 100).clip(0, 100)
         title, vmin, vmax, cmap, unit = "Forest Vulnerability Score (FVS)", 0, 80, 'YlOrRd', "%"
     else:
         y_vals = y_pred
         title, vmin, vmax, cmap, unit = "Projected Canopy Structure [σ(H)]", 0, 8, 'RdYlGn', "m"
     
-    label = f"IPCC Projection ({period} | {ssp_mapping[ssp_key]})" if mode == 'IPCC Scenarios' else "Custom Stress Scenario"
+    label = f"IPCC Projection ({period})" if mode == 'IPCC Scenarios' else "Custom Stress Scenario"
     subtitle = f"1 km Grid | {label} | ΔT: +{dt:.2f} | ΔP: {dp} | ΔVPD: +{dv}"
 
+# --- 8. Dashboard Layout ---
 col_map, col_stats = st.columns([3, 1])
 
 with col_map:
@@ -151,13 +159,13 @@ with col_map:
     st.pyplot(fig)
 
 with col_stats:
-    st.markdown("### **Landscape Analysis**")
-    st.metric("Mean Complexity", f"{y_vals.mean():.2f} {unit}")
+    st.markdown("### **Spatial Statistics**")
+    st.metric("Landscape Mean", f"{y_vals.mean():.2f} {unit}")
     if mode != 'Historical Baseline':
-        st.metric("Vulnerability Peak", f"{y_vals.max():.1f} {unit}")
-        st.warning("⚠️ High Climatic Debt: Red zones indicate areas where canopy structure is projected to decouple from historical stability.")
+        st.metric("Max Sensitivity", f"{y_vals.max():.1f} {unit}")
+        st.warning("⚠️ Red pixels indicate high climatic debt and predicted structural degradation.")
     else:
-        st.success("✅ Validated 2017 Reference State")
+        st.success("✅ Validated Reference State (2017)")
 
 st.markdown("---")
-st.caption("Author: Narek Ohanyan | AUA BSCS '26 | Data Sources: WSL VHM, CHELSA V2.1, Hansen GFC")
+st.caption("Author: Narek Ohanyan | AUA BSCS '26 | Data: WSL, CHELSA, Hansen GFC")
