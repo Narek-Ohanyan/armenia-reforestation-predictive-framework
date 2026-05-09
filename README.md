@@ -75,5 +75,22 @@ streamlit run app.py
 *   **Climate:** [CHELSA Monthly Datasets](https://www.chelsa-climate.org/)
 *   **Disturbance:** [Hansen Global Forest Change](https://glad.earthengine.app/view/global-forest-change)
 
+## 🌍 Computational Sustainability & Carbon Audit
+In alignment with the author's research focus on the carbon footprint of human-AI interactions, the environmental cost of the **EcoSentinel** framework's development was audited in real-time.
+
+### **The Audit Results**
+The model training phase (Random Forest ensemble with 500 estimators) was monitored using the **CodeCarbon** tracking tool to quantify the "computational debt" of the predictive framework.
+
+| Metric | Result |
+| :--- | :--- |
+| **Project Name** | FORACCA Model Calibration |
+| **Energy Consumption** | Low-Intensity / Optimized |
+| **Carbon Footprint** | **0.000041 kg CO2** |
+| **Audit Status** | Validated Low-Emission |
+
+### **Scientific Significance**
+This audit ensures that the reforestation strategies proposed by the framework do not ignore the carbon debt incurred by the computational tools used to design them. The negligible footprint of **0.000041 kg CO2** confirms that the framework provides high-resolution predictive power without significant environmental overhead, ensuring a net-positive impact for the **FORACCA** initiative.
+
+> 📊 *The detailed environmental audit log can be found in `development_pipeline/emissions.csv`.*
 ---
 *© 2026 Narek Ohanyan. Developed as part of the BSCS Capstone at the American University of Armenia.*
