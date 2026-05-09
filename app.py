@@ -17,6 +17,7 @@ st.set_page_config(
 @st.cache_resource
 def load_assets():
     # Assets generated in project development (Notebooks 01-05)
+    # df_forest contains the 4,338 pixels identified at 1km resolution
     df = pd.read_parquet('Armenia_ML_Training_Data.parquet')
     arm_border = gpd.read_file('arm_admin0.geojson')
     model = joblib.load('RF_FVS_Model.joblib')
@@ -31,8 +32,8 @@ except Exception as e:
 # --- 3. Academic Header ---
 st.markdown("""
     <div style="background-color: #f9f9f9; padding: 25px; border-radius: 10px; border-left: 10px solid #1b5e20; margin-bottom: 25px; box-shadow: 2px 2px 5px rgba(0,0,0,0.05);">
-        <h1 style="color: #1b5e20; margin: 0; font-family: 'Helvetica', sans-serif;">Predictive Framework for Climate-Smart Reforestation</h1>
-        <p style="font-size: 1.2em; color: #555; margin-bottom: 15px;"><b><i>Validated Modeling for Armenia's Forest Resilience</i></b></p>
+        <h1 style="color: #1b5e20; margin: 0; font-family: 'Helvetica', sans-serif;">A Validated Predictive Framework</h1>
+        <p style="font-size: 1.2em; color: #555; margin-bottom: 15px;"><b><i>Climate-Smart Reforestation and Resilience Mapping in Armenia</i></b></p>
         <hr style="border: 0.5px solid #ddd;">
         <table style="width: 100%; border: none; font-size: 0.95em; color: #333;">
             <tr><td><b>Author:</b> Narek Ohanyan</td><td><b>Date:</b> May, 2026</td></tr>
@@ -44,20 +45,20 @@ st.markdown("""
 # --- 4. Detailed Methodology & Mathematical Framework ---
 with st.expander("🔬 Methodology: Mathematical Calibration & Bioclimatic Stacking"):
     st.markdown("""
-    ### **1. Supervised Learning Architecture**
-    The framework utilizes a supervised learning architecture to correlate multi-decadal bioclimatic variables with physical forest structure. The model is built on the premise that canopy complexity—represented by the standard deviation of vegetation height $\sigma(H)$—is a physical manifestation of long-term climatic equilibrium. 
+    ### **1. Supervised Learning & Spatial Scale**
+    The framework utilizes a supervised learning architecture to correlate bioclimatic variables with physical forest structure. A critical component of this framework is the **Standardized 1 km Grid**. 
+    
+    To ensure computational efficiency and alignment with global climate datasets, all spatial variables were aggregated or downsampled to a **1 km spatial resolution**. This grid serves as the unifying unit for multivariate analysis, where each pixel ($p$) represents a distinct ecological state.
 
-    The framework identifies structural sensitivity coefficients—**$\\alpha$ (VPD)**, **$\\beta$ ($T_{max}$)**, and **$\\gamma$ (Precipitation)**—using a **Random Forest Regressor** to drive the predictive engine.
-
-    ### **2. The Integral Growing Season Formula**
-    The vulnerability logic is governed by the cumulative climatic stressor intensity across the primary physiological window. The Forest Vulnerability Score ($FVS$) for a given pixel ($p$) and scenario ($s$) is derived as:
+    ### **2. The Growing Season Formula**
+    The vulnerability logic is governed by the cumulative climatic stressor intensity across the primary physiological window. The Forest Vulnerability Score ($FVS$) for a given pixel ($p$) and scenario ($s$) is derived from the integral of stressor coefficients over the **Growing Season (May–September)**:
     """)
     st.latex(r"FVS(p, s) = \int_{May}^{Sept} \left( \alpha \cdot \Delta vpd(p, m, s) + \beta \cdot \Delta tasmax(p, m, s) + \gamma \cdot \Delta pr(p, m, s) \right) dm")
     st.markdown("""
     ### **3. Data Stacking & The 2017 Baseline**
-    * **Bioclimatic Predictors (CHELSA-Monthly):** Kilometer-scale global climate data (1979–2018). Variables include Vapor Pressure Deficit (**VPD** in Pa), Precipitation (**pr** in $kg \cdot m^{-2} \cdot month^{-1}$), and Daily Maximum Temperature (**tasmax** in K).
-    * **Structural Baseline (Sentinel-2 VHM):** Countrywide 10m Vegetation Height Models developed by the **Swiss Federal Institute WSL** for the **FORACCA** project (Jiang et al., 2023). 
-    * **Stability Proof:** The **2017 baseline** was selected as a descriptive state for the 1979–2018 period. This selection was mathematically verified using the **Global Forest Change (Hansen)** dataset to confirm that training pixels remained stable and lacked land-cover transitions throughout the observational window.
+    * **Bioclimatic Predictors (CHELSA-Monthly):** Kilometer-scale climate data (1979–2018) including Vapor Pressure Deficit (**VPD** in Pa), Precipitation (**pr** in $kg \cdot m^{-2} \cdot month^{-1}$), and Maximum Temperature (**tasmax** in K).
+    * **Structural Baseline (Sentinel-2 VHM):** Originally at 10m resolution (WSL Institute), the vegetation height was spatially aggregated to the **1 km grid** by calculating the Standard Deviation ($\sigma(H)$) within each pixel to represent structural complexity.
+    * **Stability Proof:** Using the **Global Forest Change (Hansen) dataset**, we mathematically proved that the 2017 structural baseline is representative of the 1979–2018 period for the selected pixels, confirming they remained stable and free from significant land-cover transitions.
 
     ### **4. Calibration, Validation, and Performance**
     - **Training Epoch:** 1979–2000 (Growing Season Mean)
@@ -76,13 +77,15 @@ with st.expander("🔬 Methodology: Mathematical Calibration & Bioclimatic Stack
 with st.expander("📖 User Guide: Interpreting the Framework"):
     st.markdown("""
     ### **1. Output Interpretation**
-    * **Canopy Structure [σ(H)]:** Measures vertical heterogeneity. High values (Green) indicate multi-layered, mature forests.
-    * **Forest Vulnerability Score (FVS):** Quantifies the percentage of structural loss relative to the 2017 stable baseline.
+    * **Canopy Structure [σ(H)]:** Measures vertical heterogeneity. High values (Green) indicate mature, multi-layered forests.
+    * **Forest Vulnerability Score (FVS):** Quantifies the percentage of structural loss relative to the stable 2017 baseline.
     """)
     st.latex(r"FVS = \left( \frac{\sigma(H)_{baseline} - \sigma(H)_{predicted}}{\sigma(H)_{baseline}} \right) \times 100")
     st.markdown("""
-    ### **2. Climate Forcing Parameters**
-    All inputs are **Deltas (Δ)**—the shifts from the 1979–2018 historical mean to the projected climate states.
+    ### **2. Operation Modes**
+    * **Historical Baseline:** Shows the forest structure as it existed in the validated 2017 state.
+    * **IPCC Scenarios:** Applies projected climate deltas for 2050/2080 based on standard CMIP6 pathways.
+    * **Custom Forcing:** Allows manual stress-testing of the ecosystem by adjusting individual climate variables.
     """)
 
 # --- 5. Model Constants ---
@@ -127,7 +130,7 @@ elif mode == 'Custom Forcing':
 if mode == 'Historical Baseline':
     y_vals = df_forest['vhm_std']
     title, vmin, vmax, cmap, unit = "Historical Baseline Structure (2017)", 0, 8, 'RdYlGn', "m"
-    subtitle = "1979-2018 Observational Stable State"
+    subtitle = "1 km Grid | 1979-2018 Observational Stable State"
 else:
     # Feature Engineering with .clip() to prevent RF regression to the mean
     X_in = pd.DataFrame({
@@ -145,7 +148,7 @@ else:
         title, vmin, vmax, cmap, unit = "Projected Canopy Structure [σ(H)]", 0, 8, 'RdYlGn', "m"
     
     label = f"IPCC Projection ({period} | {ssp_mapping[ssp_key]})" if mode == 'IPCC Scenarios' else "Custom Stress Scenario"
-    subtitle = f"{label} | ΔT: +{dt:.2f} | ΔP: {dp} | ΔVPD: +{dv}"
+    subtitle = f"1 km Grid | {label} | ΔT: +{dt:.2f} | ΔP: {dp} | ΔVPD: +{dv}"
 
 # --- 8. Dashboard Layout ---
 col_map, col_stats = st.columns([3, 1])
@@ -165,9 +168,9 @@ with col_stats:
     st.metric("Landscape Mean", f"{y_vals.mean():.2f} {unit}")
     if mode != 'Historical Baseline':
         st.metric("Max Sensitivity", f"{y_vals.max():.1f} {unit}")
-        st.warning("⚠️ High values indicate predicted structural collapse or significant thinning.")
+        st.warning("⚠️ Red pixels indicate high climatic debt where forest structural collapse is predicted.")
     else:
-        st.success("✅ Validated 2017 Reference State")
+        st.success("✅ Validated Reference State")
 
 st.markdown("---")
-st.caption("Developed by Narek Ohanyan | AUA BSCS '26 | Data: WSL, CHELSA, Copernicus, IPCC AR6")
+st.caption("Author: Narek Ohanyan | AUA BSCS '26 | Spatial Resolution: 1 km | Data: WSL, CHELSA, Hansen GFC")
