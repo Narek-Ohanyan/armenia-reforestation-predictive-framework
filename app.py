@@ -138,7 +138,7 @@ elif mode == 'Custom Forcing':
 # --- 7. Predictive Run ---
 if mode == 'Historical Baseline':
     y_vals = df_forest['vhm_std']
-    title, vmin, vmax, cmap, unit = "Historical Baseline Structure (2017)", 0, 8, 'RdYlGn', "m"
+    title, vmin, vmax, cmap, unit = "Historical Baseline Structure", 0, 8, 'RdYlGn', "m"
     subtitle = "1 km Grid | 1979-2018 Observational Stable State"
 else:
     # Feature Engineering with .clip()
