@@ -196,7 +196,7 @@ with col_footer_1:
 with col_footer_2:
     st.metric(
         label="Training Carbon Footprint", 
-        value="0.000041 kg CO2", 
+        value="0.000041 kg CO$_2$", 
         delta="Validated Low-Emission", 
         delta_color="normal"
     )
