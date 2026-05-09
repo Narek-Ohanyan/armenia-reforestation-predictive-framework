@@ -24,7 +24,7 @@ st.set_page_config(
 # --- 2. Data Loading (Cached for Performance) ---
 @st.cache_resource
 def load_assets():
-    # Ensure these files are in the same folder as app.py
+    # Ensure these files are in your GitHub repository root
     df = pd.read_parquet('Armenia_ML_Training_Data.parquet')
     border = gpd.read_file('arm_admin0.geojson')
     model = joblib.load('RF_FVS_Model.joblib')
@@ -76,7 +76,7 @@ dt, dp, dv = 0.0, 0.0, 0.0
 
 if mode == 'IPCC Scenarios':
     period = st.sidebar.selectbox("Time Horizon", options=list(projection_matrix.keys()))
-    ssp = st.sidebar.radio("Pathway (SSP)", options=['ssp126', 'ssp245', 'ssp370', 'ssp585'],
+    ssp = st.sidebar.radio("Pathway (SSP)", options=['ssp126', 'ssp245', 'ssp370', 'ssp585'], 
                            format_func=lambda x: x.upper().replace('SSP', 'SSP '))
     dt, dp, dv = projection_matrix[period][ssp]
 
@@ -94,7 +94,7 @@ if mode == 'Historical Baseline':
     subtitle = "(1979-2018 Observational Data)"
     vmin, vmax, cmap, unit = 0, 8, 'RdYlGn', "meters"
 else:
-    # Predictive Calculation
+    # Predictive Calculation with Extrapolation Clipping
     X_in = pd.DataFrame({
         'Delta_VPD_GS': (df_forest['Delta_VPD_GS'] + dv).clip(upper=vmax_vpd),
         'Delta_Tmax_GS': (df_forest['Delta_Tmax_GS'] + dt).clip(upper=vmax_temp),
@@ -108,12 +108,18 @@ else:
     else:
         y_vals = y_pred
         title, vmin, vmax, cmap, unit = "Projected Canopy Structure [σ(H)]", 0, 8, 'RdYlGn', "meters"
-
-    subtitle = f"{period if mode == 'IPCC' else 'Custom Scenario'}\nΔTmax: +{dt}°C | ΔPrec: {dp}mm | ΔVPD: +{dv}kPa"
+    
+    # Corrected Subtitle Logic
+    if mode == 'IPCC Scenarios':
+        scenario_label = f"IPCC Scenario ({period} | {ssp.upper()})"
+    else:
+        scenario_label = "Custom Forcing Scenario"
+        
+    subtitle = f"{scenario_label} | ΔTmax: +{dt}°C | ΔPrec: {dp}mm | ΔVPD: +{dv}kPa"
 
 # --- 5. Main Dashboard Display ---
 st.markdown(f"<h1 style='color:#1b5e20;'>FORACCA: Temporal Climate Sentinel</h1>", unsafe_allow_html=True)
-st.subheader(f"{title}")
+st.markdown(f"### {title}")
 st.write(subtitle)
 
 # Metrics Summary
@@ -127,6 +133,7 @@ fig, ax = plt.subplots(figsize=(12, 7), facecolor='none')
 armenia_border.plot(ax=ax, color='#eeeeee', edgecolor='#bcbcbc')
 sc = ax.scatter(df_forest['x'], df_forest['y'], c=y_vals, cmap=cmap, s=15, vmin=vmin, vmax=vmax, zorder=2)
 plt.colorbar(sc, label=unit, fraction=0.03, pad=0.01)
+ax.set_title(f"Spatial Distribution - {title}", fontsize=12)
 ax.axis('off')
 
 st.pyplot(fig)
