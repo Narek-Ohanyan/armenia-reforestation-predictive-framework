@@ -75,6 +75,7 @@ streamlit run app.py
 *   **VHM:** [WSL Environmental Informatics (EnviDat)](https://doi.org/10.16904/envidat.690)
 *   **Climate:** [CHELSA Monthly Datasets](https://www.chelsa-climate.org/)
 *   **Disturbance:** [Hansen Global Forest Change](https://glad.earthengine.app/view/global-forest-change)
+*   **IPCC** [IPCC WGI Interactive Atlas](https://interactive-atlas.ipcc.ch/regional-information#eyJ0eXBlIjoiQVRMQVMiLCJjb21tb25zIjp7ImxhdCI6LTI2MjgyNTgsImxuZyI6LTE2MjE2ODgsInpvb20iOjMsInByb2oiOiJFUFNHOjU0MDMwIiwibW9kZSI6ImNvbXBsZXRlX2F0bGFzIn0sInByaW1hcnkiOnsic2NlbmFyaW8iOiJzc3A1ODUiLCJwZXJpb2QiOiIxLjUiLCJzZWFzb24iOiJ5ZWFyIiwiZGF0YXNldCI6IkNNSVA2IiwidmFyaWFibGUiOiJ0YXNtYXgiLCJ2YWx1ZVR5cGUiOiJBTk9NQUxZIiwiaGF0Y2hpbmciOiJTSU1QTEUiLCJyZWdpb25TZXQiOiJhcjYiLCJiYXNlbGluZSI6InByZUluZHVzdHJpYWwiLCJyZWdpb25zU2VsZWN0ZWQiOlsxN119LCJwbG90Ijp7ImFjdGl2ZVRhYiI6InRhYmxlIiwic2hvd2luZyI6dHJ1ZSwibWFzayI6Im5vbmUiLCJzY2F0dGVyWU1hZyI6IkFOT01BTFkiLCJzY2F0dGVyWVZhciI6InRhc21heCJ9fQ==)
 
 ## 🌍 Computational Sustainability & Carbon Audit
 In alignment with the author's research focus on the carbon footprint of human-AI interactions, the environmental cost of the **EcoSentinel** framework's development was audited in real-time.
