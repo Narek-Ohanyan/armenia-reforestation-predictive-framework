@@ -202,7 +202,7 @@ with col_footer_2:
     )
 st.markdown("---")
 st.markdown(r"""
-    ## **ACKNOWLEDGMENT**
+    ### **ACKNOWLEDGMENT**
     The author would like to express sincere gratitude to Alen Gasparian Amirkhanyan, Director of the AUA Acopian Center for the Environment (ACE), for his invaluable supervision and strategic guidance throughout the development of this framework. Special thanks are extended to the Swiss Federal Research Institute WSL, specifically Franziska Zilker and Dr. Michael James McCarthy of the Dynamic Macroecology group, for providing the CHELSA bioclimatic datasets, bias-corrected environmental data, and technical feedback on the predictive methodology. Additionally, the author acknowledges Taleen Mahseredjian (AUA ACE) and the broader FORACCA project team for their logistical support and collaborative insights during the conceptualization of the EcoSentinel system.
     """)
 st.markdown("---")
