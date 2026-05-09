@@ -8,7 +8,7 @@ import joblib
 
 # --- 1. Page Configuration ---
 st.set_page_config(
-    page_title="EcoSentinel: Forest Resilience Framework",
+    page_title="EcoSentinel: Validated Predictive Framework",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -16,7 +16,7 @@ st.set_page_config(
 # --- 2. Data Loading (Cached) ---
 @st.cache_resource
 def load_assets():
-    # Assets generated in Notebook 02 and calibrated in Notebook 03
+    # Assets generated in project development (Notebooks 01-05)
     df = pd.read_parquet('Armenia_ML_Training_Data.parquet')
     border = gpd.read_file('arm_admin0.geojson')
     model = joblib.load('RF_FVS_Model.joblib')
@@ -31,8 +31,8 @@ except Exception as e:
 # --- 3. Academic Header ---
 st.markdown("""
     <div style="background-color: #f9f9f9; padding: 25px; border-radius: 10px; border-left: 10px solid #1b5e20; margin-bottom: 25px; box-shadow: 2px 2px 5px rgba(0,0,0,0.05);">
-        <h1 style="color: #1b5e20; margin: 0; font-family: 'Helvetica', sans-serif;">Technical Concept Note: A Validated Predictive Framework</h1>
-        <p style="font-size: 1.2em; color: #555; margin-bottom: 15px;"><b>Climate-Smart Reforestation and Resilience Mapping in Armenia</b></p>
+        <h1 style="color: #1b5e20; margin: 0; font-family: 'Helvetica', sans-serif;">Predictive Framework for Climate-Smart Reforestation</h1>
+        <p style="font-size: 1.2em; color: #555; margin-bottom: 15px;"><b><i>Validated Modeling for Armenia's Forest Resilience</i></b></p>
         <hr style="border: 0.5px solid #ddd;">
         <table style="width: 100%; border: none; font-size: 0.95em; color: #333;">
             <tr><td><b>Author:</b> Narek Ohanyan</td><td><b>Date:</b> May, 2026</td></tr>
@@ -41,57 +41,56 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# --- 4. Technical Documentation (Revised per Concept Note & Development) ---
-with st.expander("ℹ️ About the Project: Strategic Objectives"):
-    st.markdown(f"""
-    This framework provides a technical contribution to the **FORACCA (Output 1.2)** initiative. By identifying **Climate Refugia**, the tool optimizes reforestation placement for 2050/2080 scenarios.
+# --- 4. Detailed Methodology & Mathematical Framework ---
+with st.expander("🔬 Methodology: Mathematical Calibration & Bioclimatic Stacking"):
+    st.markdown("""
+    ### **1. Supervised Learning Architecture**
+    The framework utilizes a supervised learning architecture to correlate multi-decadal bioclimatic variables with physical forest structure. The model assumes that canopy complexity—represented by the standard deviation of vegetation height $\sigma(H)$—is a physical manifestation of long-term climatic equilibrium. 
 
-    ### **Key Research Evolutions:**
-    * **The Syunik Alignment:** Our spatial processing (Notebook 02) corrected previous coordinate drifts, identifying a precise national baseline of **4,338 stable forest pixels** (1km resolution).
-    * **Dynamic Reforestation:** We transition from static, outdated inventories to **Dynamic Predictive Modeling** using high-resolution Sentinel-2 Vegetation Height Models (VHM).
-    * **Objective:** Ensure that reforestation sites selected today remain viable under future climate stressors, minimizing the risk of investment loss due to climate-driven dieback.
+    The model identifies structural sensitivity coefficients—**$\\alpha$ (VPD)**, **$\\beta$ ($T_{max}$)**, and **$\\gamma$ (Precipitation)**—using a **Random Forest Regressor**.
+
+    ### **2. Data Stacking & The 2017 Baseline**
+    * **Bioclimatic Predictors (CHELSA-Monthly):** Kilometer-scale global climate data (1979–2018). Variables include Vapor Pressure Deficit (**VPD** in Pa), Precipitation (**pr** in $kg \cdot m^{-2} \cdot month^{-1}$), and Daily Maximum Temperature (**tasmax** in K).
+    * **Structural Baseline (Sentinel-2 VHM):** Countrywide 10m Vegetation Height Models developed by the **Swiss Federal Institute WSL** for the FORACCA project (Jiang et al., 2023). 
+    * **Justification:** The **2017 baseline** was mathematically proven to be descriptive for the 1979–2018 period using the **Global Forest Change (Hansen)** dataset, ensuring training pixels represented stable climatic-structural equilibrium without significant land-cover transitions.
+
+    ### **3. The Integral Growing Season Formula**
+    The model was calibrated using an integral temporal approach for the **Growing Season (May–September)**. The feature engineering calculates the cumulative climatic stressor ($S$) over the months ($m$):
+    """)
+    st.latex(r"S_{GS} = \int_{May}^{Sept} \text{ClimateVariable}(m) \, dm \approx \sum_{m=5}^{9} \text{Variable}_m")
+    st.markdown("""
+    ### **4. Calibration, Validation, and Performance**
+    - **Training Epoch:** 1979–2000 (Growing Season Mean)
+    - **Validation Epoch:** 2000–2018 (Hindcasting Evaluation)
+    
+    **Validated Performance Metrics:**
+    - **$R^2$ Score:** 0.292 
+    - **Mean Absolute Error (MAE):** **1.799 meters**
+    
+    ### **5. Sensitivity Coefficients (Feature Importances)**
+    - **$\\alpha$ (Δ VPD):** 34.9% (Atmospheric Thirst)
+    - **$\\beta$ (Δ Tmax):** 31.4% (Metabolic Respiration Cost)
+    - **$\\gamma$ (Δ Prec):** 33.7% (Hydraulic Stress)
     """)
 
 with st.expander("📖 User Guide: Interpreting the Framework"):
     st.markdown("""
-    ### **1. Core Metrics**
-    * **Canopy Structural Complexity [σ(H)]:** This measures the vertical heterogeneity of the forest (Standard Deviation of height). High complexity (Green) indicates mature, multi-layered canopies with high ecological capital.
-    * **Forest Vulnerability Score (FVS):** A normalized index (0–100%) quantifying the "Climatic Debt"—the predicted structural decay relative to the 2017 high-resolution baseline.
-
-    ### **2. Climate Stressors (Predictors)**
-    * **Δ Tmax (°C):** Maximum summer temperature increase; a proxy for metabolic and respiration costs.
-    * **Δ Prec (mm):** Annual precipitation change; negative values indicate intensified hydraulic stress.
-    * **Δ VPD (kPa):** *Vapor Pressure Deficit*. Measures 'Atmospheric Thirst'—the driving force that desiccates leaves and restricts carbon uptake.
+    ### **1. Output Interpretation**
+    * **Canopy Structure [σ(H)]:** Measures vertical heterogeneity. High values (Green) indicate multi-layered, mature forests.
+    * **Forest Vulnerability Score (FVS):** Quantifies the percentage of structural loss relative to the stable 2017 baseline.
     """)
-
-with st.expander("🔬 Methodology: Mathematical Proof & Validation"):
+    st.latex(r"FVS = \left( \frac{\sigma(H)_{baseline} - \sigma(H)_{predicted}}{\sigma(H)_{baseline}} \right) \times 100")
     st.markdown("""
-    ### **1. The Random Forest Sentinel**
-    The engine is a Random Forest Regressor constructed as an ensemble of decision trees to determine the structural sensitivity coefficients ($\\alpha, \\beta, \\gamma$).
-    """)
-    st.latex(r"\hat{y} = \frac{1}{B} \sum_{b=1}^{B} T_b(X)")
-    st.markdown("""
-    ### **2. Proof of Validation**
-    The framework was trained on the **1979–2000** historical epoch and validated against the **2000–2018** period (Notebook 03).
-    * **Validated MAE:** **1.799 meters**. 
-    * This low Mean Absolute Error (MAE) proves the framework's ability to capture structural responses to precipitation and heat volatility with high spatial fidelity.
-
-    ### **3. The Extrapolation Fix (Clipping Logic)**
-    Random Forest models often exhibit **'Regression to the Mean'** when faced with extreme climate deltas. To maintain biological realism in SSP5-8.5 scenarios, we implemented a **.clip() logic** based on the 99th percentile of training stressors:
-    """)
-    st.code("X_in['Delta_VPD'].clip(upper=vmax_vpd)", language='python')
-    st.markdown("""
-    This ensures the model recognizes extreme climate forcing without reverting to historical averages, preserving the critical "tipping point" signals in the vulnerability maps.
+    ### **2. Climate Forcing Parameters**
+    All inputs are **Deltas (Δ)**—the shift from the 1979–2018 historical mean to the projected state.
     """)
 
-# --- 5. Model Parameters ---
+# --- 5. Model Constants ---
 vmax_vpd = df_forest['Delta_VPD_GS'].quantile(0.99)
 vmax_temp = df_forest['Delta_Tmax_GS'].quantile(0.99)
 vmin_prec = df_forest['Delta_P_GS'].quantile(0.01)
 
-ssp_mapping = {
-    'ssp126': 'SSP1-2.6', 'ssp245': 'SSP2-4.5', 'ssp370': 'SSP3-7.0', 'ssp585': 'SSP5-8.5'
-}
+ssp_mapping = {'ssp126': 'SSP1-2.6', 'ssp245': 'SSP2-4.5', 'ssp370': 'SSP3-7.0', 'ssp585': 'SSP5-8.5'}
 
 projection_matrix = {
     'Medium-Term (2041–2060)': {
@@ -104,8 +103,8 @@ projection_matrix = {
     }
 }
 
-# --- 6. Sidebar Model Controls ---
-st.sidebar.markdown("### 🌲 Model Controls")
+# --- 6. Sidebar Controls ---
+st.sidebar.markdown("### 🌲 Projection Controls")
 mode = st.sidebar.selectbox("Operation Mode", ['Historical Baseline', 'IPCC Scenarios', 'Custom Forcing'])
 
 metric_options = [('Canopy Structure [σ(H)]', 'sigma')]
@@ -117,21 +116,21 @@ metric = st.sidebar.selectbox("Metric", options=metric_options, format_func=lamb
 dt, dp, dv = 0.0, 0.0, 0.0
 if mode == 'IPCC Scenarios':
     period = st.sidebar.selectbox("Time Horizon", options=list(projection_matrix.keys()))
-    ssp_key = st.sidebar.radio("Pathway (SSP)", options=list(ssp_mapping.keys()), 
-                               format_func=lambda x: ssp_mapping[x])
+    ssp_key = st.sidebar.radio("Pathway", options=list(ssp_mapping.keys()), format_func=lambda x: ssp_mapping[x])
     dt, dp, dv = projection_matrix[period][ssp_key]
 elif mode == 'Custom Forcing':
-    dt = st.sidebar.slider('Δ Tmax (°C)', 0.0, 6.0, 0.0)
-    dp = st.sidebar.slider('Δ Prec (mm)', -150, 100, 0)
-    dv = st.sidebar.slider('Δ VPD (kPa)', 0.0, 1.0, 0.0)
+    dt = st.sidebar.slider('Δ Tmax (K)', 0.0, 6.0, 0.0)
+    dp = st.sidebar.slider('Δ Prec (kg/m²/mo)', -150, 100, 0)
+    dv = st.sidebar.slider('Δ VPD (Pa)', 0.0, 1.0, 0.0)
 
-# --- 7. Predictive Run ---
+# --- 7. Predictive Run & Extrapolation Fix ---
+
 if mode == 'Historical Baseline':
     y_vals = df_forest['vhm_std']
     title, vmin, vmax, cmap, unit = "Historical Baseline Structure (2017)", 0, 8, 'RdYlGn', "m"
-    subtitle = "(1979-2018 Observational Baseline)"
+    subtitle = "1979-2018 Observational Stable State"
 else:
-    # Feature engineering for inference using the 'Extrapolation Fix'
+    # Feature Engineering with .clip() to prevent RF regression to the mean
     X_in = pd.DataFrame({
         'Delta_VPD_GS': (df_forest['Delta_VPD_GS'] + dv).clip(upper=vmax_vpd),
         'Delta_Tmax_GS': (df_forest['Delta_Tmax_GS'] + dt).clip(upper=vmax_temp),
@@ -146,29 +145,31 @@ else:
         y_vals = y_pred
         title, vmin, vmax, cmap, unit = "Projected Canopy Structure [σ(H)]", 0, 8, 'RdYlGn', "m"
     
-    label = f"IPCC Scenario ({period} | {ssp_mapping[ssp_key]})" if mode == 'IPCC Scenarios' else "Custom Scenario"
-    subtitle = f"{label} | ΔTmax: +{dt}°C | ΔPrec: {dp}mm | ΔVPD: +{dv}kPa"
+    label = f"IPCC Projection ({period} | {ssp_mapping[ssp_key]})" if mode == 'IPCC Scenarios' else "Custom Stress Scenario"
+    subtitle = f"{label} | ΔT: +{dt:.2f} | ΔP: {dp} | ΔVPD: +{dv}"
 
-# --- 8. Visualization Display ---
+# --- 8. Dashboard Layout ---
+
 col_map, col_stats = st.columns([3, 1])
 
 with col_map:
     st.subheader(title)
     st.caption(subtitle)
-    
     fig, ax = plt.subplots(figsize=(10, 6), facecolor='white')
     armenia_border.plot(ax=ax, color='#eeeeee', edgecolor='#bcbcbc')
-    sc = ax.scatter(df_forest['x'], df_forest['y'], c=y_vals, cmap=cmap, s=15, vmin=vmin, vmax=vmax)
+    sc = ax.scatter(df_forest['x'], df_forest['y'], c=y_vals, cmap=cmap, s=12, vmin=vmin, vmax=vmax, alpha=0.8)
     plt.colorbar(sc, label=unit)
     ax.axis('off')
     st.pyplot(fig)
 
 with col_stats:
-    st.markdown("### **Landscape Analysis**")
-    st.metric("Mean Value", f"{y_vals.mean():.2f}")
+    st.markdown("### **Spatial Statistics**")
+    st.metric("Landscape Mean", f"{y_vals.mean():.2f} {unit}")
     if mode != 'Historical Baseline':
-        max_val = y_vals.max()
-        st.metric("Critical Value", f"{max_val:.1f}%")
-        st.warning("💡 Red areas indicate high climatic debt where forest structural collapse is predicted.")
+        st.metric("Max Sensitivity", f"{y_vals.max():.1f} {unit}")
+        st.warning("⚠️ High values indicate predicted structural collapse or significant thinning.")
     else:
         st.success("✅ Validated 2017 Reference State")
+
+st.markdown("---")
+st.caption("Developed by Narek Ohanyan | AUA BSCS '26 | Data: WSL, CHELSA, Copernicus")
