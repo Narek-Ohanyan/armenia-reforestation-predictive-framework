@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+venv/
+
+# Operating System
+.DS_Store
+Thumbs.db
+
+# Large files (if not using LFS)
+*.log
