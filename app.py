@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import geopandas as gpd
 import joblib
-import os
+
 # --- 1. Page Configuration ---
 st.set_page_config(
     page_title="EcoSentinel: Validated Predictive Framework",
@@ -15,26 +15,14 @@ st.set_page_config(
 
 # --- 2. Data Loading (Cached) ---
 
-
 @st.cache_resource
 def load_assets():
-    # This will print the files the server actually sees in its logs
-    st.write("Files found in data/:", os.listdir('data/'))
-    st.write("Files found in models/:", os.listdir('models/'))
-    
+    # UPDATED PATHS: Points to the new subdirectory structure
+    # df_forest contains the 4,338 pixels identified at 1km resolution
     df = pd.read_parquet('data/Armenia_ML_Training_Data.parquet')
     arm_border = gpd.read_file('data/arm_admin0.geojson')
     model = joblib.load('models/RF_FVS_Model.joblib')
     return df, arm_border, model
-    
-# @st.cache_resource
-# def load_assets():
-#     # UPDATED PATHS: Points to the new subdirectory structure
-#     # df_forest contains the 4,338 pixels identified at 1km resolution
-#     df = pd.read_parquet('data/Armenia_ML_Training_Data.parquet')
-#     arm_border = gpd.read_file('data/arm_admin0.geojson')
-#     model = joblib.load('models/RF_FVS_Model.joblib')
-#     return df, arm_border, model
 
 try:
     df_forest, armenia_border, rf_model = load_assets()
