@@ -207,6 +207,7 @@ st.caption(r"""
     <b>Data Sources:</b> 
     <a href="https://doi.org/10.16904/envidat.690" target="_blank">WSL (VHM)</a> | 
     <a href="https://www.chelsa-climate.org/datasets/chelsa_monthly" target="_blank">CHELSA (Climate)</a> | 
-    <a href="https://glad.earthengine.app/view/global-forest-change" target="_blank">Hansen Global Forest Change</a>
+    <a href="https://glad.earthengine.app/view/global-forest-change" target="_blank">Hansen Global Forest Change</a> | 
+    <a href="https://interactive-atlas.ipcc.ch/regional-information#eyJ0eXBlIjoiQVRMQVMiLCJjb21tb25zIjp7ImxhdCI6LTI2MjgyNTgsImxuZyI6LTE2MjE2ODgsInpvb20iOjMsInByb2oiOiJFUFNHOjU0MDMwIiwibW9kZSI6ImNvbXBsZXRlX2F0bGFzIn0sInByaW1hcnkiOnsic2NlbmFyaW8iOiJzc3A1ODUiLCJwZXJpb2QiOiIxLjUiLCJzZWFzb24iOiJ5ZWFyIiwiZGF0YXNldCI6IkNNSVA2IiwidmFyaWFibGUiOiJ0YXNtYXgiLCJ2YWx1ZVR5cGUiOiJBTk9NQUxZIiwiaGF0Y2hpbmciOiJTSU1QTEUiLCJyZWdpb25TZXQiOiJhcjYiLCJiYXNlbGluZSI6InByZUluZHVzdHJpYWwiLCJyZWdpb25zU2VsZWN0ZWQiOlsxN119LCJwbG90Ijp7ImFjdGl2ZVRhYiI6InRhYmxlIiwic2hvd2luZyI6dHJ1ZSwibWFzayI6Im5vbmUiLCJzY2F0dGVyWU1hZyI6IkFOT01BTFkiLCJzY2F0dGVyWVZhciI6InRhc21heCJ9fQ==" target="_blank">IPCC</a>
 </div>
 """, unsafe_allow_html=True)
