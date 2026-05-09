@@ -13,11 +13,11 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# --- 2. Data Loading (Cached) ---
+# --- 2. Data Loading ---
 
 @st.cache_resource
 def load_assets():
-    # UPDATED PATHS: Points to the new subdirectory structure
+    
     # df_forest contains the 4,338 pixels identified at 1km resolution
     df = pd.read_parquet('data/Armenia_ML_Training_Data.parquet')
     arm_border = gpd.read_file('data/arm_admin0.geojson')
@@ -44,7 +44,7 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# --- 4. Refined Methodology & Mathematical Framework ---
+# --- 4. Methodology & Mathematical Framework ---
 with st.expander("ℹ️ About the Project"):
     st.markdown(r"""
     This project provides a technical contribution to the **Forest Restoration and Climate Change in Armenia (FORACCA)** initiative, specifically targeting **Output 1.2**. 
