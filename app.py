@@ -45,7 +45,7 @@ st.markdown("""
 # --- 4. Refined Methodology & Mathematical Framework ---
 with st.expander("ℹ️ About the Project"):
     st.markdown(r"""
-    ### This project provides a technical contribution to the **Forest Restoration and Climate Change in Armenia (FORACCA)** initiative, specifically targeting **Output 1.2**. 
+    This project provides a technical contribution to the **Forest Restoration and Climate Change in Armenia (FORACCA)** initiative, specifically targeting **Output 1.2**. 
     """)
 with st.expander("🔬 Methodology: Computational Calibration & Bioclimatic Stacking"):
     st.markdown("""
