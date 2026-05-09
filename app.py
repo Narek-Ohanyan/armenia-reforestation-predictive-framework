@@ -79,11 +79,15 @@ with st.expander("📖 User Guide: Output Interpretation"):
     The FVS quantifies the percentage of structural loss predicted under climate forcing compared to the validated 2017 reference state:
     """)
     st.latex(r"FVS = \left( \frac{\sigma(H)_{baseline} - \sigma(H)_{predicted}}{\sigma(H)_{baseline}} \right) \times 100")
-    st.markdown("""
-    * **Historical Baseline:** Represents the observed 1979-2018 stable average.
-    * **IPCC Scenarios:** CMIP6 projections for the **Medium-Term (2041-2060)** and **Long-Term (2081-2100)**.
+   st.markdown(r"""
+    ### **2. Canopy Structure [$\sigma(H)$]**
+    Measures vertical heterogeneity within the 1 km² pixel. High values (Green) indicate mature, multi-layered forest canopies, while low values signify simpler or degraded structures.
+    
+    ### **3. Operation Modes**
+    * **Historical Baseline:** Represents the observed baseline state (validated across the 1979-2018 observational period).
+    * **IPCC Scenarios:** Applies CMIP6 climate deltas for the **Medium-Term (2041–2060)** and **Long-Term (2081–2100)**.
+    * **Custom Forcing:** Allows manual stress-testing of the ecosystem by adjusting individual bioclimatic variables.
     """)
-
 # --- 5. Model Constants ---
 vmax_vpd = df_forest['Delta_VPD_GS'].quantile(0.99)
 vmax_temp = df_forest['Delta_Tmax_GS'].quantile(0.99)
