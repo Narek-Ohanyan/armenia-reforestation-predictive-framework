@@ -46,7 +46,7 @@ $$FVS = \left(\frac{\sigma(H)_{2017} - \sigma(H)_{predicted}}{\sigma(H)_{2017}} 
 ├── data/                       
 │   ├── Armenia_ML_Training_Data.parquet # 4,338 standardized pixel observations
 │   └── arm_admin0.geojson               # National boundary file
-├── development_pipeline/       # Research Methodology & Model Development
+├── development_pipeline/                # Research Methodology & Model Development
     ├── 01_Bioclimatic_Grid_Standardization.ipynb
     ├── 02_Climate_Stressor_Feature_Engineering.ipynb
     └── 03_Random_Forest_Calibration_and_SHAP.ipynb
