@@ -67,8 +67,8 @@ with st.expander("🔬 Methodology: Computational Calibration & Bioclimatic Stac
     A **Random Forest Regressor** (500 estimators) was trained to map these stressors to structural outcomes. 
     * **Performance Metrics:** $R^2 = 0.292$ | Mean Absolute Error (MAE) = **1.799 meters**.
     * **SHAP Interpretability:** Feature importance was derived using Shapley values to identify dominant drivers:
-        - **$\aalpha$ (Δ VPD):** 34.9% (Atmospheric Drying Power)
-        - **$\bbeta$ (Δ Tmax):** 31.4% (Metabolic Respiration Cost)
+        - **\alpha (Δ VPD):** 34.9% (Atmospheric Drying Power)
+        - **\beta (Δ Tmax):** 31.4% (Metabolic Respiration Cost)
         - **$\gamma$ (Δ Prec):** 33.7% (Hydraulic Stress)
     """)
 
