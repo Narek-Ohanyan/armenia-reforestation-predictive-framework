@@ -164,9 +164,9 @@ with col_stats:
     st.metric("Landscape Mean", f"{y_vals.mean():.2f} {unit}")
     if mode != 'Historical Baseline':
         st.metric("Max Sensitivity", f"{y_vals.max():.1f} {unit}")
-        st.warning("⚠️ Red pixels indicate high climatic debt and predicted structural degradation.")
+        st.warning("Red pixels indicate high climatic debt and predicted structural degradation.")
     else:
-        st.success("✅ Validated Reference State (2017)")
+        st.success("Validated Reference State")
 
 st.markdown("---")
 st.caption(r"""
