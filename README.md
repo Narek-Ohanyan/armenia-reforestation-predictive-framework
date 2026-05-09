@@ -1,5 +1,4 @@
 # A Validated Predictive Framework for Climate-Smart Reforestation in Armenia
-### **EcoSentinel: Computational Calibration & Bioclimatic Stacking**
 
 [Tool App](https://armenia-reforestation-predictive-framework.streamlit.app/)
 
