@@ -39,6 +39,7 @@ st.markdown("""
         <table style="width: 100%; border: none; font-size: 0.95em; color: #333;">
             <tr><td><b>Author:</b> Narek Ohanyan</td><td><b>Date:</b> May, 2026</td></tr>
             <tr><td><b>Institution:</b> American University of Armenia</td><td><b>Project:</b> BSCS Capstone</td></tr>
+            <tr><td><b>Source Code:</b> <a href="https://github.com/Narek-Ohanyan/armenia-reforestation-predictive-framework" target="_blank">GitHub Repository</a></td><td><b>Status:</b> Production v1.0</td></tr>
         </table>
     </div>
 """, unsafe_allow_html=True)
