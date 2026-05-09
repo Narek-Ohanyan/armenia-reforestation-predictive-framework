@@ -75,7 +75,7 @@ with st.expander("🔬 Methodology: Computational Calibration & Bioclimatic Stac
 
 with st.expander("📖 User Guide: Output Interpretation"):
     st.markdown(r"""
-    ### **1. Forest Vulnerability Score [$\FVS$]**
+    ### **1. Forest Vulnerability Score [$FVS$]**
     The FVS quantifies the percentage of structural loss predicted under climate forcing compared to the validated 2017 reference state:
     """)
     st.latex(r"FVS = \left( \frac{\sigma(H)_{2017} - \sigma(H)_{predicted}}{\sigma(H)_{2017}} \right) \times 100")
