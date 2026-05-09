@@ -78,7 +78,7 @@ with st.expander("📖 User Guide: Output Interpretation"):
     ### **1. Forest Vulnerability Score (FVS)**
     The FVS quantifies the percentage of structural loss predicted under climate forcing compared to the validated 2017 reference state:
     """)
-    st.latex(r"FVS = \left( \frac{\sigma(H)_{Baseline} - \sigma(H)_{predicted}}{\sigma(H)_{Baseline}} \right) \times 100")
+    st.latex(r"FVS = \left( \frac{\sigma(H)_{baseline} - \sigma(H)_{predicted}}{\sigma(H)_{baseline}} \right) \times 100")
     st.markdown("""
     * **Historical Baseline:** Represents the observed 1979-2018 stable average.
     * **IPCC Scenarios:** CMIP6 projections for the **Medium-Term (2041-2060)** and **Long-Term (2081-2100)**.
