@@ -1,7 +1,7 @@
 # A Validated Predictive Framework for Climate-Smart Reforestation in Armenia
 ### **EcoSentinel: Computational Calibration & Bioclimatic Stacking**
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_svg.svg)](https://armenia-reforestation-predictive-framework.streamlit.app/)
+[![Streamlit App](https://cdn-icons-png.flaticon.com/512/6803/6803408.png)](https://armenia-reforestation-predictive-framework.streamlit.app/)
 
 ## 🎓 Academic Context
 *   **Author:** Narek Ohanyan
@@ -43,7 +43,24 @@ A **Random Forest Regressor** (500 estimators) maps stressors to structural outc
 ├── Armenia_ML_Training_Data.parquet # 4,338 standardized pixel observations
 ├── arm_admin0.geojson             # National boundary file
 └── RF_FVS_Model.joblib            # Trained Random Forest Regressor
+```
+## 🛠 Setup & Installation
+### 1. Clone the Repo:
 
+```Bash
+git clone https://github.com/Narek-Ohanyan/armenia-reforestation-predictive-framework/
+cd your-repo-name
+```
+### 2. Install Requirements:
+
+```Bash
+pip install -r requirements.txt
+```
+### 3. Run Locally:
+
+```Bash
+streamlit run app.py
+```
 ## 📊 Data Sources
 *   **VHM:** [WSL Environmental Informatics (EnviDat)](https://doi.org/10.16904/envidat.690)
 *   **Climate:** [CHELSA Monthly Datasets](https://www.chelsa-climate.org/)
