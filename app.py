@@ -169,4 +169,12 @@ with col_stats:
         st.success("✅ Validated Reference State (2017)")
 
 st.markdown("---")
-st.caption("Author: Narek Ohanyan | AUA BSCS '26 | Data: WSL, CHELSA, Hansen GFC")
+st.caption(r"""
+<div style="text-align: center; font-size: 0.85em; color: #777;">
+    <b>Author:</b> Narek Ohanyan | AUA BSCS '26 | <b>Spatial Resolution:</b> 1 km <br>
+    <b>Data Sources:</b> 
+    <a href="https://doi.org/10.16904/envidat.690" target="_blank">WSL (VHM)</a> | 
+    <a href="https://www.doi.org/10.16904/envidat.686" target="_blank">CHELSA (Climate)</a> | 
+    <a href="https://glad.earthengine.app/view/global-forest-change" target="_blank">Hansen Global Forest Change</a>
+</div>
+""", unsafe_allow_html=True)
