@@ -10,7 +10,7 @@
 *   **Subject:** Machine Learning for Ecological Resilience
 
 ## 🌲 Project Overview
-EcoSentinel is a high-resolution (1 km²) geospatial framework designed to quantify and predict forest structural response to climatic stress in Armenia. By correlating vertical canopy heterogeneity ($\sigma H$) with multi-decadal bioclimatic anomalies, the framework provides a "Climate Sentinel" for stakeholders to identify areas of high climatic debt and structural vulnerability.
+This project provides a technical contribution to the Forest Restoration and Climate Change in Armenia (FORACCA) initiative, specifically targeting Output 1.2. It is a high-resolution (1 km²) geospatial framework designed to quantify and predict forest structural response to climatic stress in Armenia. By correlating vertical canopy heterogeneity ($\sigma H$) with multi-decadal bioclimatic anomalies, the framework provides a "Climate Sentinel" for stakeholders to identify areas of high climatic debt and structural vulnerability.
 
 ## 🔬 Methodology & Computational Framework
 
