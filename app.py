@@ -53,7 +53,7 @@ with st.expander("🔬 Methodology: Mathematical Calibration & Bioclimatic Stack
     ### **2. The Growing Season Formula**
     The vulnerability logic is governed by the cumulative climatic stressor intensity across the primary physiological window. The Forest Vulnerability Score ($FVS$) for a given pixel ($p$) and scenario ($s$) is derived from the integral of stressor coefficients over the **Growing Season (May–September)**:
     """)
-    st.latex(r"FVS(p, s) = \int_{May}^{Sept} \left( \alpha \cdot \Delta vpd(p, m, s) + \beta \cdot \Delta tasmax(p, m, s) + \gamma \cdot \Delta pr(p, m, s) \right) dm")
+    st.latex(r"FVS(p, s) = \int_{May}^{Sept} \frac{1}{\sigma(H)} \left( \alpha \cdot \Delta vpd(p, m, s) + \beta \cdot \Delta tasmax(p, m, s) + \gamma \cdot \Delta pr(p, m, s) \right) dm")
     st.markdown("""
     ### **3. Data Stacking & The 2017 Baseline**
     * **Bioclimatic Predictors (CHELSA-Monthly):** Kilometer-scale climate data (1979–2018) including Vapor Pressure Deficit (**VPD** in Pa), Precipitation (**pr** in $kg \cdot m^{-2} \cdot month^{-1}$), and Maximum Temperature (**tasmax** in K).
