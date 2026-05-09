@@ -37,12 +37,16 @@ st.markdown("""
         <hr style="border: 0.5px solid #ddd;">
         <table style="width: 100%; border: none; font-size: 0.95em; color: #333;">
             <tr><td><b>Author:</b> Narek Ohanyan</td><td><b>Date:</b> May, 2026</td></tr>
-            <tr><td><b>Institution:</b> American University of Armenia</td><td><b>Subject:</b> BSCS Capstone Project</td></tr>
+            <tr><td><b>Institution:</b> American University of Armenia</td><td><b>Project:</b> BSCS Capstone</td></tr>
         </table>
     </div>
 """, unsafe_allow_html=True)
 
 # --- 4. Refined Methodology & Mathematical Framework ---
+with st.expander("ℹ️ About the Project"):
+st.markdown("""
+This project provides a technical contribution to the **Forest Restoration and Climate Change in Armenia (FORACCA)** initiative, specifically targeting **Output 1.2**. 
+""")
 with st.expander("🔬 Methodology: Computational Calibration & Bioclimatic Stacking"):
     st.markdown("""
     ### **1. Geospatial Integration & Temporal Baselines**
