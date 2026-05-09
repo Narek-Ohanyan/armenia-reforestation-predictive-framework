@@ -46,6 +46,7 @@ st.markdown("""
 with st.expander("🔬 Methodology: Computational Calibration & Bioclimatic Stacking"):
     st.markdown("""
     ### **1. Geospatial Integration & Temporal Baselines**
+    The study utilizes a high-resolution remote sensing framework to quantify forest vertical structure. Initial canopy metrics were derived from Global Ecosystem Dynamics Investigation (GEDI) and secondary Vegetation Height Models (VHM). To maintain computational efficiency and align with bioclimatic datasets, all raster layers were spatially resampled to a standardized 1 km² grid using the rioxarray and rasterio libraries.
     The framework utilizes a multi-decadal supervised learning architecture to correlate bioclimatic variables with physical forest structure.
     * **Historical Training Period (1979–2000):** Baseline climate means were established to define the "stable" ecological state.
     * **Validation & Hindcasting (2000–2018):** Evaluation of forest structural response to observed climate anomalies.
