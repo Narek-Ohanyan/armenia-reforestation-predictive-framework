@@ -18,9 +18,9 @@ st.set_page_config(
 def load_assets():
     # Assets generated in project development (Notebooks 01-05)
     df = pd.read_parquet('Armenia_ML_Training_Data.parquet')
-    border = gpd.read_file('arm_admin0.geojson')
+    arm_border = gpd.read_file('arm_admin0.geojson')
     model = joblib.load('RF_FVS_Model.joblib')
-    return df, border, model
+    return df, arm_border, model
 
 try:
     df_forest, armenia_border, rf_model = load_assets()
@@ -45,20 +45,20 @@ st.markdown("""
 with st.expander("🔬 Methodology: Mathematical Calibration & Bioclimatic Stacking"):
     st.markdown("""
     ### **1. Supervised Learning Architecture**
-    The framework utilizes a supervised learning architecture to correlate multi-decadal bioclimatic variables with physical forest structure. The model assumes that canopy complexity—represented by the standard deviation of vegetation height $\sigma(H)$—is a physical manifestation of long-term climatic equilibrium. 
+    The framework utilizes a supervised learning architecture to correlate multi-decadal bioclimatic variables with physical forest structure. The model is built on the premise that canopy complexity—represented by the standard deviation of vegetation height $\sigma(H)$—is a physical manifestation of long-term climatic equilibrium. 
 
-    The model identifies structural sensitivity coefficients—**$\\alpha$ (VPD)**, **$\\beta$ ($T_{max}$)**, and **$\\gamma$ (Precipitation)**—using a **Random Forest Regressor**.
+    The framework identifies structural sensitivity coefficients—**$\\alpha$ (VPD)**, **$\\beta$ ($T_{max}$)**, and **$\\gamma$ (Precipitation)**—using a **Random Forest Regressor** to drive the predictive engine.
 
-    ### **2. Data Stacking & The 2017 Baseline**
-    * **Bioclimatic Predictors (CHELSA-Monthly):** Kilometer-scale global climate data (1979–2018). Variables include Vapor Pressure Deficit (**VPD** in Pa), Precipitation (**pr** in $kg \cdot m^{-2} \cdot month^{-1}$), and Daily Maximum Temperature (**tasmax** in K).
-    * **Structural Baseline (Sentinel-2 VHM):** Countrywide 10m Vegetation Height Models developed by the **Swiss Federal Institute WSL** for the FORACCA project (Jiang et al., 2023). 
-    * **Justification:** The **2017 baseline** was mathematically proven to be descriptive for the 1979–2018 period using the **Global Forest Change (Hansen)** dataset, ensuring training pixels represented stable climatic-structural equilibrium without significant land-cover transitions.
-
-    ### **3. The Integral Growing Season Formula**
-    The model was calibrated using an integral temporal approach for the **Growing Season (May–September)**. The feature engineering calculates the cumulative climatic stressor ($S$) over the months ($m$):
+    ### **2. The Integral Growing Season Formula**
+    The vulnerability logic is governed by the cumulative climatic stressor intensity across the primary physiological window. The Forest Vulnerability Score ($FVS$) for a given pixel ($p$) and scenario ($s$) is derived as:
     """)
-    st.latex(r"S_{GS} = \int_{May}^{Sept} \text{ClimateVariable}(m) \, dm \approx \sum_{m=5}^{9} \text{Variable}_m")
+    st.latex(r"FVS(p, s) = \int_{May}^{Sept} \left( \alpha \cdot \Delta vpd(p, m, s) + \beta \cdot \Delta tasmax(p, m, s) + \gamma \cdot \Delta pr(p, m, s) \right) dm")
     st.markdown("""
+    ### **3. Data Stacking & The 2017 Baseline**
+    * **Bioclimatic Predictors (CHELSA-Monthly):** Kilometer-scale global climate data (1979–2018). Variables include Vapor Pressure Deficit (**VPD** in Pa), Precipitation (**pr** in $kg \cdot m^{-2} \cdot month^{-1}$), and Daily Maximum Temperature (**tasmax** in K).
+    * **Structural Baseline (Sentinel-2 VHM):** Countrywide 10m Vegetation Height Models developed by the **Swiss Federal Institute WSL** for the **FORACCA** project (Jiang et al., 2023). 
+    * **Stability Proof:** The **2017 baseline** was selected as a descriptive state for the 1979–2018 period. This selection was mathematically verified using the **Global Forest Change (Hansen)** dataset to confirm that training pixels remained stable and lacked land-cover transitions throughout the observational window.
+
     ### **4. Calibration, Validation, and Performance**
     - **Training Epoch:** 1979–2000 (Growing Season Mean)
     - **Validation Epoch:** 2000–2018 (Hindcasting Evaluation)
@@ -68,7 +68,7 @@ with st.expander("🔬 Methodology: Mathematical Calibration & Bioclimatic Stack
     - **Mean Absolute Error (MAE):** **1.799 meters**
     
     ### **5. Sensitivity Coefficients (Feature Importances)**
-    - **$\\alpha$ (Δ VPD):** 34.9% (Atmospheric Thirst)
+    - **$\\alpha$ (Δ VPD):** 34.9% (Atmospheric Drying Power)
     - **$\\beta$ (Δ Tmax):** 31.4% (Metabolic Respiration Cost)
     - **$\\gamma$ (Δ Prec):** 33.7% (Hydraulic Stress)
     """)
@@ -77,12 +77,12 @@ with st.expander("📖 User Guide: Interpreting the Framework"):
     st.markdown("""
     ### **1. Output Interpretation**
     * **Canopy Structure [σ(H)]:** Measures vertical heterogeneity. High values (Green) indicate multi-layered, mature forests.
-    * **Forest Vulnerability Score (FVS):** Quantifies the percentage of structural loss relative to the stable 2017 baseline.
+    * **Forest Vulnerability Score (FVS):** Quantifies the percentage of structural loss relative to the 2017 stable baseline.
     """)
     st.latex(r"FVS = \left( \frac{\sigma(H)_{baseline} - \sigma(H)_{predicted}}{\sigma(H)_{baseline}} \right) \times 100")
     st.markdown("""
     ### **2. Climate Forcing Parameters**
-    All inputs are **Deltas (Δ)**—the shift from the 1979–2018 historical mean to the projected state.
+    All inputs are **Deltas (Δ)**—the shifts from the 1979–2018 historical mean to the projected climate states.
     """)
 
 # --- 5. Model Constants ---
@@ -124,7 +124,6 @@ elif mode == 'Custom Forcing':
     dv = st.sidebar.slider('Δ VPD (Pa)', 0.0, 1.0, 0.0)
 
 # --- 7. Predictive Run & Extrapolation Fix ---
-
 if mode == 'Historical Baseline':
     y_vals = df_forest['vhm_std']
     title, vmin, vmax, cmap, unit = "Historical Baseline Structure (2017)", 0, 8, 'RdYlGn', "m"
@@ -149,7 +148,6 @@ else:
     subtitle = f"{label} | ΔT: +{dt:.2f} | ΔP: {dp} | ΔVPD: +{dv}"
 
 # --- 8. Dashboard Layout ---
-
 col_map, col_stats = st.columns([3, 1])
 
 with col_map:
@@ -172,4 +170,4 @@ with col_stats:
         st.success("✅ Validated 2017 Reference State")
 
 st.markdown("---")
-st.caption("Developed by Narek Ohanyan | AUA BSCS '26 | Data: WSL, CHELSA, Copernicus")
+st.caption("Developed by Narek Ohanyan | AUA BSCS '26 | Data: WSL, CHELSA, Copernicus, IPCC AR6")
