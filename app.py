@@ -16,7 +16,7 @@ st.set_page_config(
 # --- 2. Data Loading (Cached) ---
 @st.cache_resource
 def load_assets():
-    # Assets generated in project development (Notebooks 01-05)
+    # UPDATED PATHS: Points to the new subdirectory structure
     # df_forest contains the 4,338 pixels identified at 1km resolution
     df = pd.read_parquet('data/Armenia_ML_Training_Data.parquet')
     arm_border = gpd.read_file('data/arm_admin0.geojson')
@@ -47,6 +47,7 @@ with st.expander("ℹ️ About the Project"):
     st.markdown(r"""
     This project provides a technical contribution to the **Forest Restoration and Climate Change in Armenia (FORACCA)** initiative, specifically targeting **Output 1.2**. 
     """)
+
 with st.expander("🔬 Methodology: Computational Calibration & Bioclimatic Stacking"):
     st.markdown("""
     ### **1. Geospatial Integration & Temporal Baselines**
@@ -93,6 +94,7 @@ with st.expander("📖 User Guide: Output Interpretation"):
     * **IPCC Scenarios:** Applies CMIP6 climate deltas for the **Medium-Term (2041–2060)** and **Long-Term (2081–2100)**.
     * **Custom Forcing:** Allows manual stress-testing of the ecosystem by adjusting individual bioclimatic variables.
     """)
+
 # --- 5. Model Constants ---
 vmax_vpd = df_forest['Delta_VPD_GS'].quantile(0.99)
 vmax_temp = df_forest['Delta_Tmax_GS'].quantile(0.99)
