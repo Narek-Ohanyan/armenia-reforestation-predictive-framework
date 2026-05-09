@@ -38,11 +38,16 @@ A **Random Forest Regressor** (500 estimators) maps stressors to structural outc
 
 ## 📂 Repository Structure
 ```text
-├── app.py                         # Streamlit Dashboard & Predictive Engine
-├── requirements.txt               # Dependencies (GeoPandas, Scikit-Learn, etc.)
-├── Armenia_ML_Training_Data.parquet # 4,338 standardized pixel observations
-├── arm_admin0.geojson             # National boundary file
-└── RF_FVS_Model.joblib            # Trained Random Forest Regressor
+
+├── app.py                               # Streamlit Dashboard & Predictive Engine
+├── requirements.txt                     # Dependencies (GeoPandas, Scikit-Learn, etc.)
+├── README.md                  
+├── .gitignore                  
+├── data/                       
+│   ├── Armenia_ML_Training_Data.parquet # 4,338 standardized pixel observations
+│   └── arm_admin0.geojson               # National boundary file
+└── models/                    
+    └── RF_FVS_Model.joblib              # Trained Random Forest Regressor
 ```
 ## 🛠 Setup & Installation
 ### 1. Clone the Repo:
