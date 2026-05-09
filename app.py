@@ -16,7 +16,6 @@ st.set_page_config(
 # --- 2. Data Loading (Cached) ---
 @st.cache_resource
 def load_assets():
-    # Ensure these files are in the same directory as app.py
     df = pd.read_parquet('Armenia_ML_Training_Data.parquet')
     border = gpd.read_file('arm_admin0.geojson')
     model = joblib.load('RF_FVS_Model.joblib')
@@ -34,10 +33,7 @@ vmax_temp = df_forest['Delta_Tmax_GS'].quantile(0.99)
 vmin_prec = df_forest['Delta_P_GS'].quantile(0.01)
 
 ssp_mapping = {
-    'ssp126': 'SSP1-2.6',
-    'ssp245': 'SSP2-4.5',
-    'ssp370': 'SSP3-7.0',
-    'ssp585': 'SSP5-8.5'
+    'ssp126': 'SSP1-2.6', 'ssp245': 'SSP2-4.5', 'ssp370': 'SSP3-7.0', 'ssp585': 'SSP5-8.5'
 }
 
 projection_matrix = {
@@ -51,42 +47,50 @@ projection_matrix = {
     }
 }
 
-# --- 3. Academic Header & Metadata ---
-with st.container():
-    st.markdown("""
-        <div style="background-color: #f9f9f9; padding: 20px; border-radius: 10px; border-left: 8px solid #1b5e20; margin-bottom: 20px;">
-            <h1 style="color: #1b5e20; margin: 0;"> Predictive Framework for Climate-Smart Reforestation</h1>
-            <p style="font-size: 1.1em; color: #555; margin-bottom: 15px;"><b><i>Validated Modeling for Armenia's Forest Resilience</i></b></p>
-            <hr style="border: 0.5px solid #ddd;">
-            <table style="width: 100%; border: none; font-size: 0.95em; color: #333;">
-                <tr>
-                    <td><b>Author:</b> Narek Ohanyan</td>
-                    <td><b>Date:</b> May, 2026</td>
-                </tr>
-                <tr>
-                    <td><b>Institution:</b> American University of Armenia</td>
-                    <td><b>Subject:</b> BSCS Capstone Project</td>
-                </tr>
-            </table>
-        </div>
-    """, unsafe_allow_html=True)
+# --- 3. Academic Header ---
+st.markdown("""
+    <div style="background-color: #f9f9f9; padding: 20px; border-radius: 10px; border-left: 8px solid #1b5e20; margin-bottom: 20px;">
+        <h1 style="color: #1b5e20; margin: 0;">Predictive Framework for Climate-Smart Reforestation</h1>
+        <p style="font-size: 1.1em; color: #555; margin-bottom: 15px;"><b><i>Technical Concept Note | Validated Modeling for Armenia's Forest Resilience</i></b></p>
+        <hr style="border: 0.5px solid #ddd;">
+        <table style="width: 100%; border: none; font-size: 0.95em; color: #333;">
+            <tr><td><b>Author:</b> Narek Ohanyan</td><td><b>Date:</b> May, 2026</td></tr>
+            <tr><td><b>Institution:</b> American University of Armenia</td><td><b>Subject:</b> BSCS Capstone Project</td></tr>
+        </table>
+    </div>
+""", unsafe_allow_html=True)
 
-# --- 4. About & Methodology (Accordions) ---
-with st.expander("ℹ️ About this Project"):
-    st.write("""
-        EcoSentinel is a dynamic decision-support tool designed to optimize reforestation strategies in Armenia 
-        under shifting climate regimes. By transitioning from static inventories to dynamic predictive modeling, 
-        this framework identifies **Climate Refugia**—geographic zones that maintain ecological stability despite 
-        projected temperature increases and precipitation volatility. The tool serves as a technical contribution 
-        to the FORACCA initiative (Output 1.2).
+# --- 4. NEW: Interpretation & Technical Documentation ---
+with st.expander("📖 User Guide: How to Interpret the Output"):
+    st.markdown("""
+    ### **1. Understanding the Metrics**
+    * **Canopy Structural Complexity [σ(H)]:** Measured in meters. It represents the standard deviation of vegetation height within a 1km pixel. High values (Green) indicate mature, multi-layered forests. Low values (Red) indicate sparse or simplified canopy structures.
+    * **Forest Vulnerability Score (FVS):** A relative index (0-100). It measures the percentage of structural loss predicted between the 2017 baseline and the future scenario. 
+        * *0-20:* Low Risk (Stable)
+        * *20-50:* Moderate Risk (Degradation likely)
+        * *50+:* High Risk (Potential ecosystem collapse/transition)
+
+    ### **2. The Climate Variables (Predictors)**
+    All inputs are **Deltas (Δ)**—the difference between a future value and the historical baseline (1979-2018).
+    * **Δ Tmax (°C):** The increase in maximum summer temperatures. Higher heat leads to leaf scorching and metabolic stress.
+    * **Δ Prec (mm):** The change in annual precipitation. Negative values indicate drought stress; positive values can buffer the effects of heat.
+    * **Δ VPD (kPa):** *Vapor Pressure Deficit*. This is the "atmospheric thirst." It measures how much moisture the air pulls out of the trees. It is calculated based on the gap between the air's humidity and its saturation point at a given temperature.
+
+    ### **3. Data Sources**
+    * **Vegetation Structure:** Sentinel-2 Vegetation Height Model (VHM) 2017 (WSL Institute).
+    * **Climate Archives:** CHELSA High-Resolution Climatologies (V2.1).
+    * **Future Scenarios:** IPCC AR6 CMIP6 Multi-Model Ensembles (SSPs).
     """)
 
-with st.expander("🔬 Methodology & Validation"):
+with st.expander("🔬 Methodology & Mathematical Framework"):
     st.write("""
-        - **Data Baseline:** Utilizing Sentinel-2 Vegetation Height Models (VHM) developed by WSL and Analysis Ready Datasets (ARD).
-        - **Modeling:** A Random Forest Regressor calibrated on historical climate deltas (1979-2018) to determine the structural sensitivity coefficients (α, β, γ).
-        - **Validation:** The model achieved a **Mean Absolute Error (MAE) of 1.799 meters** during backtesting, indicating high structural predictive accuracy.
-        - **Vulnerability Logic:** The Forest Vulnerability Score (FVS) represents the percentage of structural loss relative to the 2017 high-resolution baseline.
+    The framework utilizes a **Random Forest Regressor** trained on 18 years of historical climate-vegetation interactions. 
+    The core equation for vulnerability is defined as:
+    """)
+    st.latex(r"FVS = \left( \frac{\sigma(H)_{baseline} - \sigma(H)_{predicted}}{\sigma(H)_{baseline}} \right) \times 100")
+    st.write("""
+    The predictive engine applies a **spatial-clipping logic** to ensure that extreme climate forcing (outliers) does not produce mathematically 
+    impossible structural values, maintaining biological realism in the 2080-2100 projections.
     """)
 
 # --- 5. Sidebar UI ---
@@ -113,10 +117,9 @@ elif mode == 'Custom Forcing':
 # --- 6. Predictive Engine ---
 if mode == 'Historical Baseline':
     y_vals = df_forest['vhm_std']
-    title, subtitle = "Historical Baseline", "(1979-2018 Observational Data)"
+    title, subtitle = "Historical Baseline Structure", "Current forest complexity before climate forcing."
     vmin, vmax, cmap, unit = 0, 8, 'RdYlGn', "meters"
 else:
-    # Feature engineering for prediction
     X_in = pd.DataFrame({
         'Delta_VPD_GS': (df_forest['Delta_VPD_GS'] + dv).clip(upper=vmax_vpd),
         'Delta_Tmax_GS': (df_forest['Delta_Tmax_GS'] + dt).clip(upper=vmax_temp),
@@ -153,3 +156,4 @@ with col2:
     if mode != 'Historical Baseline':
         max_vuln = y_vals.max()
         st.metric("Max Vulnerability", f"{max_vuln:.1f}%")
+        st.info("💡 High vulnerability indicates areas where forest structure is predicted to simplify significantly.")
