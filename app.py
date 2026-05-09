@@ -57,7 +57,7 @@ with st.expander("🔬 Methodology: Computational Calibration & Bioclimatic Stac
     
     st.latex(r"Stress(p, s) = \int_{May}^{Sept} \frac{1}{\sigma(H)} \left( \alpha \cdot \Delta vpd(p, m, s) + \beta \cdot \Delta T_{max}(p, m, s) + \gamma \cdot \Delta P(p, m, s) \right) dm")
     
-    st.markdown("""
+    st.markdown(r"""
     ### **3. Bioclimatic Predictors & Feature Engineering**
     * **$\Delta$ Variables:** Computed as the difference between the projection years (2041–2060 or 2081–2100) and the historical baseline.
     * **$\sigma(H)^{-1}$ Normalization:** By multiplying the integral by the inverse of the standard deviation of canopy height, the framework accounts for the higher relative vulnerability of complex vertical structures to atmospheric demand.
@@ -67,8 +67,8 @@ with st.expander("🔬 Methodology: Computational Calibration & Bioclimatic Stac
     A **Random Forest Regressor** (500 estimators) was trained to map these stressors to structural outcomes. 
     * **Performance Metrics:** $R^2 = 0.292$ | Mean Absolute Error (MAE) = **1.799 meters**.
     * **SHAP Interpretability:** Feature importance was derived using Shapley values to identify dominant drivers:
-        - **$$\alpha$ (Δ VPD):** 34.9% (Atmospheric Drying Power)
-        - **$$\beta$ (Δ Tmax):** 31.4% (Metabolic Respiration Cost)
+        - **$\alpha$ (Δ VPD):** 34.9% (Atmospheric Drying Power)
+        - **$\beta$ (Δ Tmax):** 31.4% (Metabolic Respiration Cost)
         - **$\gamma$ (Δ Prec):** 33.7% (Hydraulic Stress)
     """)
 
