@@ -74,17 +74,18 @@ with st.expander("🔬 Methodology: Computational Calibration & Bioclimatic Stac
     """)
 
 with st.expander("📖 User Guide: Output Interpretation"):
-    st.markdown("""
+    st.markdown(r"""
     ### **1. Forest Vulnerability Score (FVS)**
     The FVS quantifies the percentage of structural loss predicted under climate forcing compared to the validated 2017 reference state:
     """)
-    st.latex(r"FVS = \left( \frac{\sigma(H)_{baseline} - \sigma(H)_{predicted}}{\sigma(H)_{baseline}} \right) \times 100")
-   st.markdown(r"""
+    st.latex(r"FVS = \left( \frac{\sigma(H)_{2017} - \sigma(H)_{predicted}}{\sigma(H)_{2017}} \right) \times 100")
+    
+    st.markdown(r"""
     ### **2. Canopy Structure [$\sigma(H)$]**
     Measures vertical heterogeneity within the 1 km² pixel. High values (Green) indicate mature, multi-layered forest canopies, while low values signify simpler or degraded structures.
     
     ### **3. Operation Modes**
-    * **Historical Baseline:** Represents the observed baseline state (validated across the 1979-2018 observational period).
+    * **Historical Baseline:** Represents the observed 2017 state (validated across the 1979-2018 observational period).
     * **IPCC Scenarios:** Applies CMIP6 climate deltas for the **Medium-Term (2041–2060)** and **Long-Term (2081–2100)**.
     * **Custom Forcing:** Allows manual stress-testing of the ecosystem by adjusting individual bioclimatic variables.
     """)
