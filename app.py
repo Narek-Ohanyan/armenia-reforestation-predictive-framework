@@ -55,8 +55,8 @@ projection_matrix = {
 with st.container():
     st.markdown("""
         <div style="background-color: #f9f9f9; padding: 20px; border-radius: 10px; border-left: 8px solid #1b5e20; margin-bottom: 20px;">
-            <h1 style="color: #1b5e20; margin: 0;">EcoSentinel: Predictive Framework for Climate-Smart Reforestation</h1>
-            <p style="font-size: 1.1em; color: #555; margin-bottom: 15px;"><b>Technical Concept Note | Validated Modeling for Armenia's Forest Resilience</b></p>
+            <h1 style="color: #1b5e20; margin: 0;"> Predictive Framework for Climate-Smart Reforestation</h1>
+            <p style="font-size: 1.1em; color: #555; margin-bottom: 15px;"><b><i>Validated Modeling for Armenia's Forest Resilience</i></b></p>
             <hr style="border: 0.5px solid #ddd;">
             <table style="width: 100%; border: none; font-size: 0.95em; color: #333;">
                 <tr>
