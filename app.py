@@ -102,7 +102,7 @@ else:
     subtitle = f"{label} | ΔTmax: +{dt}°C | ΔPrec: {dp}mm | ΔVPD: +{dv}kPa"
 
 # --- 5. Display ---
-st.markdown(f"<h2 style='color:#1b5e20;'>Predictive Framework for Climate-Smart Reforestation</h2>,<br><p style='margin-top:-10px;'><i>Validated Modeling for Armenia's Forest Resilience</i></p>", unsafe_allow_html=True)
+st.markdown(f"<h2 style='color:#1b5e20;'>Predictive Framework for Climate-Smart Reforestation</h2><br><p style='margin-top:-10px;'><i>Validated Modeling for Armenia's Forest Resilience</i></p>", unsafe_allow_html=True)
 st.subheader(title)
 st.write(subtitle)
 fig, ax = plt.subplots(figsize=(10, 6), facecolor='none')
