@@ -32,7 +32,9 @@ A **Random Forest Regressor** (500 estimators) maps stressors to structural outc
 
 ## 🚀 Key Metrics
 *   **Forest Vulnerability Score (FVS):** Quantifies predicted percentage structural loss.
-$$FVS = \left( \frac{\sigma(H)_{2017} - \sigma(H)_{predicted}}{\sigma(H)_{2017}} \right) \times 100$$
+
+$$FVS = \left(\frac{\sigma(H)_{2017} - \sigma(H)_{predicted}}{\sigma(H)_{2017}} \right) \times 100$$
+
 *   **Canopy Structure ($\sigma H$):** Measures vertical heterogeneity within the 1 km² pixel. High values indicate mature, resilient multi-layered canopies.
 
 ## 📂 Repository Structure
