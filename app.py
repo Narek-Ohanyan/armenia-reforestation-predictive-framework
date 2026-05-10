@@ -64,9 +64,6 @@ with st.expander("🔬 Methodology: Computational Calibration & Bioclimatic Stac
     
     st.latex(r"Stress(p, s) = \int_{May}^{Sept} \frac{1}{\sigma(H)} \left( \alpha \cdot \Delta vpd(p, m, s) + \beta \cdot \Delta T_{max}(p, m, s) + \gamma \cdot \Delta P(p, m, s) \right) dm")
 
-
-
-
   st.markdown(r"""
     ### **3. Bioclimatic Predictors & Feature Engineering**
     * **$\Delta$ Variables:** Computed as the absolute difference between the target projection years (whether the 2000–2018 hindcast or the 2041–2060/2081–2100 IPCC scenarios) and the historical climatological baseline. The model is trained purely on the magnitude of deviation from the established norm.
