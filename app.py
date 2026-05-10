@@ -64,9 +64,9 @@ with st.expander("🔬 Methodology: Computational Calibration & Bioclimatic Stac
     
     st.latex(r"Stress(p, s) = \int_{May}^{Sept} \frac{1}{\sigma(H)} \left( \alpha \cdot \Delta vpd(p, m, s) + \beta \cdot \Delta T_{max}(p, m, s) + \gamma \cdot \Delta P(p, m, s) \right) dm")
 
-
+  st.markdown(r"""
     By filtering the multidimensional data to these core phenological months, the algorithm is forced to evaluate only the atmospheric conditions present when the ecosystem is actively photosynthesizing, pumping water, and therefore physically vulnerable to stress.
-
+    """)
 
   st.markdown(r"""
     ### **3. Bioclimatic Predictors & Feature Engineering**
