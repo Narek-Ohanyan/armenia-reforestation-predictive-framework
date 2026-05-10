@@ -59,11 +59,15 @@ with st.expander("🔬 Methodology: Computational Calibration & Bioclimatic Stac
     * **Structural Baseline (2017):** The dependent variable, derived from Sentinel-2 VHM at 10m resolution, was subsequently aggregated to the standardized 1 km² grid to represent the modern structural climax ($\sigma(H)$).
 
     ### **2. The Integrated Climate Stressor Formula**
-    The vulnerability logic of the model is governed by the cumulative intensity of climatic stressors relative to the initial structural complexity of the canopy. To prevent the "dilution effect" of winter dormancy—where biologically irrelevant winter weather might mathematically offset summer extremes—time is bounded. The total stress for a pixel ($p$) under a specific climate scenario ($s$) is calculated as the integral of weighted atmospheric stressors strictly across the active **Growing Season (May–September)**.    By filtering the multidimensional data to these core phenological months, the algorithm is forced to evaluate only the atmospheric conditions present when the ecosystem is actively photosynthesizing, pumping water, and therefore physically vulnerable to stress:
+    The vulnerability logic of the model is governed by the cumulative intensity of climatic stressors relative to the initial structural complexity of the canopy. To prevent the "dilution effect" of winter dormancy—where biologically irrelevant winter weather might mathematically offset summer extremes—time is bounded. The total stress for a pixel ($p$) under a specific climate scenario ($s$) is calculated as the integral of weighted atmospheric stressors strictly across the active **Growing Season (May–September)**:
     """)
     
     st.latex(r"Stress(p, s) = \int_{May}^{Sept} \frac{1}{\sigma(H)} \left( \alpha \cdot \Delta vpd(p, m, s) + \beta \cdot \Delta T_{max}(p, m, s) + \gamma \cdot \Delta P(p, m, s) \right) dm")
 
+    st.markdown(r"""
+    By filtering the multidimensional data to these core phenological months, the algorithm is forced to evaluate only the atmospheric conditions present when the ecosystem is actively photosynthesizing, pumping water, and therefore physically vulnerable to stress.
+    """)
+    
     st.markdown(r"""
     ### **3. Bioclimatic Predictors & Feature Engineering**
     * **$\Delta$ Variables:** Computed as the absolute difference between the target projection years (whether the 2000–2018 hindcast or the 2041–2060/2081–2100 IPCC scenarios) and the historical climatological baseline. The model is trained purely on the magnitude of deviation from the established norm.
