@@ -93,6 +93,7 @@ with st.expander("🔬 Methodology: Computational Calibration & Bioclimatic Stac
     * $tasmax$: Daily Maximum Near-Surface Air Temperature (K)
     * $pr$: Precipitation flux ($\text{kg m}^{-2} \text{s}^{-1}$)
     * $hurs$: Near-Surface Relative Humidity (%)
+    
     The temporal bounds are standardized against the IPCC AR6 reference period:
     * **Climatological Baseline:** 1995–2014
     * **Mid-Term Projection:** 2041–2060
