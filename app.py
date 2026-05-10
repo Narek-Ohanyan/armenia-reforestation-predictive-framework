@@ -86,7 +86,7 @@ with st.expander("🔬 Methodology: Computational Calibration & Bioclimatic Stac
     ### **5. IPCC CMIP6 Data Acquisition & Aggregation**
     To project the calibrated structural model into future climate scenarios, the framework relies on the globally standardized Coupled Model Intercomparison Project Phase 6 (CMIP6). The following protocol defines how the predictive atmospheric anomalies ($\Delta$) were derived for the mid-century (2041–2060) and end-of-century (2081–2100) epochs.
     
-    #### **5.1 Cloud-Native Data Acquisition (Pangeo Infrastructure)**
+    ##### **5.1 Cloud-Native Data Acquisition (Pangeo Infrastructure)**
     To bypass the computational and storage bottlenecks of manually processing massive, global-scale NetCDF archives, the methodology utilizes the Pangeo cloud data catalog. This permits the lazy-loading of CMIP6 multi-model ensembles directly from Google Cloud Storage into the computational environment via the xarray and intake-esm libraries.
     The framework systematically extracts data across four distinct Shared Socioeconomic Pathways (SSPs) to capture a full spectrum of radiative forcing scenarios: SSP1-2.6 (sustainability), SSP2-4.5 (middle of the road), SSP3-7.0 (regional rivalry), and SSP5-8.5 (fossil-fueled development).
     The primary atmospheric variables extracted include:
@@ -98,11 +98,11 @@ with st.expander("🔬 Methodology: Computational Calibration & Bioclimatic Stac
     * **Mid-Term Projection:** 2041–2060
     * **Long-Term Projection:** 2081–2100
 
-    #### **5.2 Spatial Domain Extraction & Temporal Aggregation**
+    ##### **5.2 Spatial Domain Extraction & Temporal Aggregation**
     To isolate the atmospheric shifts specific to the study region, a strict spatial subsetting operation is executed. A bounding box defining the Armenian territorial domain (approx. Latitude: 38.8°N to 41.3°N, Longitude: 43.4°E to 46.6°E) is applied prior to computation, ensuring high geoprocessing efficiency.
     Following spatial extraction, variables undergo strict unit standardization: $tasmax$ is converted from Kelvin to Celsius, and precipitation mass flux ($pr$) is converted to cumulative $\text{mm/day}$ and $\text{mm/year}$. Climatological means are then calculated across the spatial domain for the reference and projection epochs, allowing for the isolation of absolute thermodynamic shifts ($\Delta T_{max}$, $\Delta RH$) and relative changes in precipitation ($\Delta P$).
 
-    #### **Thermodynamic Derivation of Vapor Pressure Deficit (VPD)**
+    ##### **5.3 Thermodynamic Derivation of Vapor Pressure Deficit (VPD)**
     Because the relationship between air temperature and its water-holding capacity (saturation vapor pressure) is governed by the non-linear Clausius-Clapeyron relationship, calculating VPD from a pre-averaged temperature introduces a mathematical artifact. To preserve biophysical accuracy, daily maximum VPD, which represents peak atmospheric thirst and the moment of highest transpirational stress for the canopy, must be calculated at the daily temporal resolution before any long-term climatological averaging occurs.
     The derivation adheres to ASCE standards for agricultural and forest thermodynamics.
     First, the **Saturation Vapor Pressure** ($e_s$) in kilopascals (kPa) is calculated from the daily maximum temperature ($T_{max}$):
