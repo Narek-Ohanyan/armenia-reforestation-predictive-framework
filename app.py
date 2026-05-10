@@ -60,7 +60,7 @@ with st.expander("🔬 Methodology: Computational Calibration & Bioclimatic Stac
     * **Structural Baseline (2017):** Derived from Sentinel-2 Vegetation Height Models (VHM) at 10m, then aggregated to a **standardized 1 km² grid**.
 
     ### **2. The Integrated Climate Stressor Formula**
-    The vulnerability logic is governed by the cumulative climatic stressor intensity relative to the initial structural complexity ($\sigma H$). The total stress for a pixel ($p$) under a scenario ($s$) is calculated as the integral of weighted stressors across the **Growing Season (May–September)**:
+    The vulnerability logic is governed by the cumulative intensity of climatic stressors relative to the initial structural complexity ($\sigma H$). The total stress for a pixel ($p$) under a scenario ($s$) is calculated as the integral of weighted stressors across the **Growing Season (May–September)**:
     """)
     
     st.latex(r"Stress(p, s) = \int_{May}^{Sept} \frac{1}{\sigma(H)} \left( \alpha \cdot \Delta vpd(p, m, s) + \beta \cdot \Delta T_{max}(p, m, s) + \gamma \cdot \Delta P(p, m, s) \right) dm")
