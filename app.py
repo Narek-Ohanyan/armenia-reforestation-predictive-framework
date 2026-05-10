@@ -104,7 +104,6 @@ with st.expander("🔬 Methodology: Computational Calibration & Bioclimatic Stac
     
     Following spatial extraction, variables undergo strict unit standardization: $tasmax$ is converted from Kelvin to Celsius, and precipitation mass flux ($pr$) is converted to cumulative $\text{mm/day}$ and $\text{mm/year}$. Climatological means are then calculated across the spatial domain for the reference and projection epochs, allowing for the isolation of absolute thermodynamic shifts ($\Delta T_{max}$, $\Delta RH$) and relative changes in precipitation ($\Delta P$).
     
-    To ensure temporal and biological symmetry with the historical training baseline, all future climate projections were strictly bounded by the active vegetation period (May–September) prior to aggregation. Variables dictating atmospheric demand ($T_{max}$ and $VPD$) were averaged exclusively across this phenological window to prevent the dilution of summer stress signals by dormant winter anomalies. Crucially, rather than extracting a daily or monthly mean, the raw precipitation mass flux ($pr$ in $\text{kg m}^{-2} \text{s}^{-1}$) was mathematically integrated across the full 5-month temporal span ($13,149,000$ seconds). This derivation converts flux rates into a single metric representing the total cumulative volumetric water budget ($\Delta P$ in mm) available to the forest canopy during its active growing season.
     ##### **5.3 Thermodynamic Derivation of Vapor Pressure Deficit (VPD)**
     Because the relationship between air temperature and its water-holding capacity (saturation vapor pressure) is governed by the non-linear Clausius-Clapeyron relationship, calculating VPD from a pre-averaged temperature introduces a mathematical artifact. To preserve biophysical accuracy, daily maximum VPD, which represents peak atmospheric thirst and the moment of highest transpirational stress for the canopy, must be calculated at the daily temporal resolution before any long-term climatological averaging occurs.
     The derivation adheres to ASCE standards for agricultural and forest thermodynamics.
@@ -155,12 +154,12 @@ ssp_mapping = {'ssp126': 'SSP1-2.6', 'ssp245': 'SSP2-4.5', 'ssp370': 'SSP3-7.0',
 
 projection_matrix = {
     'Medium-Term (2041–2060)': {
-        'ssp126': (1.02, -9.70, 0.168), 'ssp245': (1.79, -20.47, 0.271),
-        'ssp370': (2.71, -45.21, 0.511), 'ssp585': (1.97, -30.99, 0.277)
+        'ssp126': (1.02, -1.94, 0.168), 'ssp245': (1.79, -4.09, 0.271),
+        'ssp370': (2.71, -9.04, 0.511), 'ssp585': (1.97, -6.20, 0.277)
     },
     'Long-Term (2081–2100)': {
-        'ssp126': (1.08, -6.39, 0.194), 'ssp245': (2.41, -22.21, 0.417),
-        'ssp370': (5.44, -67.50	, 1.073), 'ssp585': (5.72, -49.17, 1.045)
+        'ssp126': (1.08, -1.28, 0.194), 'ssp245': (2.41, -4.44, 0.417),
+        'ssp370': (5.44, -13.50, 1.073), 'ssp585': (5.72, -9.83, 1.045)
     }
 }
 
