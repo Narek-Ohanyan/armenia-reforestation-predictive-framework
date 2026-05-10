@@ -51,11 +51,17 @@ The temporal bounds are standardized against the IPCC AR6 reference period:
 Because the relationship between air temperature and its water-holding capacity (saturation vapor pressure) is governed by the non-linear Clausius-Clapeyron relationship, calculating VPD from a pre-averaged temperature introduces a mathematical artifact. To preserve biophysical accuracy, daily maximum VPD—which represents peak atmospheric thirst and the moment of highest transpirational stress for the canopy—must be calculated at the daily temporal resolution before any long-term climatological averaging occurs.
 The derivation adheres to ASCE standards for agricultural and forest thermodynamics.
 First, the **Saturation Vapor Pressure** ($e_s$) in kilopascals (kPa) is calculated from the daily maximum temperature ($T_{max}$):
+
 $$e_s(T_{max}) = 0.6108 \cdot \exp\left(\frac{17.27 \cdot T_{max}}{T_{max} + 237.3}\right)$$
+
 Next, the **Actual Vapor Pressure** ($e_a$) is derived. While minimum daily relative humidity ideally pairs with maximum daily temperature, the use of daily mean relative humidity ($hurs$) is an accepted approximation for long-term climate delta projections:
+
 $$e_a = e_s(T_{max}) \cdot \left(\frac{RH}{100}\right)$$
+
 Finally, the Vapor Pressure Deficit (VPD) is calculated as the absolute difference between the air's holding capacity and its actual moisture content:
+
 $$VPD = e_s - e_a = e_s(T_{max}) \cdot \left(1 - \frac{RH}{100}\right)$$
+
 Once daily VPD is calculated across the sequence, these values are temporally aggregated into the 20-year epochs. The final projected $\Delta VPD$ fed into the Random Forest regressor is the difference between the future epoch's mean VPD and the 1995–2014 baseline.
 
 ## 🚀 Key Metrics
