@@ -153,12 +153,12 @@ ssp_mapping = {'ssp126': 'SSP1-2.6', 'ssp245': 'SSP2-4.5', 'ssp370': 'SSP3-7.0',
 
 projection_matrix = {
     'Medium-Term (2041–2060)': {
-        'ssp126': (0.66, 2.12, 0.066), 'ssp245': (1.03, -0.72, 0.120),
-        'ssp370': (2.00, -11.02, 0.250), 'ssp585': (1.43, -5.37, 0.132)
+        'ssp126': (0.66, 0.70, 0.066), 'ssp245': (1.03, -0.24, 0.120),
+        'ssp370': (2.00, -3.64, 0.250), 'ssp585': (1.43, -1.77, 0.132)
     },
     'Long-Term (2081–2100)': {
-        'ssp126': (0.93, -1.30, 0.090), 'ssp245': (2.07, -2.26, 0.213),
-        'ssp370': (4.07, -19.06, 0.547), 'ssp585': (4.11, -7.20, 0.513)
+        'ssp126': (0.93, -0.43, 0.090), 'ssp245': (2.07, -0.75, 0.213),
+        'ssp370': (4.07, -6.30, 0.547), 'ssp585': (4.11, -2.38, 0.513)
     }
 }
 
@@ -178,9 +178,9 @@ if mode == 'IPCC Scenarios':
     ssp_key = st.sidebar.radio("Pathway", options=list(ssp_mapping.keys()), format_func=lambda x: ssp_mapping[x])
     dt, dp, dv = projection_matrix[period][ssp_key]
 elif mode == 'Custom Forcing':
-    dt = st.sidebar.slider('Δ Tmax (K)', 0.0, 8.0, 0.0)
-    dp = st.sidebar.slider('Δ Prec (kg/m²/mo)', -100, 100, 0)
-    dv = st.sidebar.slider('Δ VPD (Pa)', 0.0, 1.0, 0.0)
+    dt = st.sidebar.slider('Δ Tmax (°C)', 0.0, 8.0, 0.0)
+    dp = st.sidebar.slider('Δ Prec (mm/mo)', -100, 100, 0)
+    dv = st.sidebar.slider('Δ VPD (kPa)', 0.0, 1.0, 0.0)
 
 # --- 7. Predictive Run ---
 if mode == 'Historical Baseline':
@@ -188,11 +188,11 @@ if mode == 'Historical Baseline':
     title, vmin, vmax, cmap, unit = "Historical Baseline Structure", 0, 8, 'RdYlGn', "m"
     subtitle = "1 km Grid | 1979-2018 Observational Stable State"
 else:
-    # Feature Engineering with .clip()
+# Feature Engineering with .clip()
     X_in = pd.DataFrame({
         'Delta_VPD_GS': (df_forest['Delta_VPD_GS'] + dv).clip(upper=vmax_vpd),
         'Delta_Tmax_GS': (df_forest['Delta_Tmax_GS'] + dt).clip(upper=vmax_temp),
-        'Delta_P_GS': (df_forest['Delta_P_GS'] + dp).clip(lower=vmin_prec)
+        'Delta_P_GS': (df_forest['Delta_P_GS'] + (dp * 5)).clip(lower=vmin_prec) 
     })
     y_pred = rf_model.predict(X_in)
     
