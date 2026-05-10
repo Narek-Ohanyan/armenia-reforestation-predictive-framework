@@ -82,6 +82,48 @@ with st.expander("🔬 Methodology: Computational Calibration & Bioclimatic Stac
         - **$\alpha$ (Δ VPD):** 34.9% (Atmospheric Drying Power) - The Primary Driver. The model confirms that atmospheric thirst is the leading cause of structural limitation. Extreme positive anomalies in VPD aggressively pull moisture from stomata faster than root systems can replenish it, forcing stomatal closure and halting the carbon assimilation required for vertical growth.
         - **$\beta$ (Δ Tmax):** 31.4% (Metabolic Respiration Cost). Heat anomalies act as a compounding stressor, increasing the metabolic cost of maintenance respiration and limiting the net primary productivity required to sustain complex canopies.
         - **$\gamma$ (Δ Prec):** 33.7% (Hydraulic Stress). Precipitation acts as the structural stabilizer. SHAP dependence proves that negative anomalies (drought) collapse the structural prediction, while increased rainfall sustains complex variance.
+
+    ### **5. Future Scenario Projection: IPCC CMIP6 Data Acquisition & Aggregation**
+    To project the calibrated structural model into future climate scenarios, the framework relies on the globally standardized Coupled Model Intercomparison Project Phase 6 (CMIP6). The following protocol defines how the predictive atmospheric anomalies ($\Delta$) were derived for the mid-century (2041–2060) and end-of-century (2081–2100) epochs.
+    
+    #### **5.1 Cloud-Native Data Acquisition (Pangeo Infrastructure)**
+    To bypass the computational and storage bottlenecks of manually processing massive, global-scale NetCDF archives, the methodology utilizes the Pangeo cloud data catalog. This permits the lazy-loading of CMIP6 multi-model ensembles directly from Google Cloud Storage into the computational environment via the xarray and intake-esm libraries.
+    The framework systematically extracts data across four distinct Shared Socioeconomic Pathways (SSPs) to capture a full spectrum of radiative forcing scenarios: SSP1-2.6 (sustainability), SSP2-4.5 (middle of the road), SSP3-7.0 (regional rivalry), and SSP5-8.5 (fossil-fueled development).
+    The primary atmospheric variables extracted include:
+    * $tasmax$: Daily Maximum Near-Surface Air Temperature (K)
+    * $pr$: Precipitation flux ($\text{kg m}^{-2} \text{s}^{-1}$)
+    * $hurs$: Near-Surface Relative Humidity (%)
+    The temporal bounds are standardized against the IPCC AR6 reference period:
+    * **Climatological Baseline:** 1995–2014
+    * **Mid-Term Projection:** 2041–2060
+    * **Long-Term Projection:** 2081–2100
+
+    #### **5.2 Spatial Domain Extraction & Temporal Aggregation**
+    To isolate the atmospheric shifts specific to the study region, a strict spatial subsetting operation is executed. A bounding box defining the Armenian territorial domain (approx. Latitude: 38.8°N to 41.3°N, Longitude: 43.4°E to 46.6°E) is applied prior to computation, ensuring high geoprocessing efficiency.
+    Following spatial extraction, variables undergo strict unit standardization: $tasmax$ is converted from Kelvin to Celsius, and precipitation mass flux ($pr$) is converted to cumulative $\text{mm/day}$ and $\text{mm/year}$. Climatological means are then calculated across the spatial domain for the reference and projection epochs, allowing for the isolation of absolute thermodynamic shifts ($\Delta T_{max}$, $\Delta RH$) and relative changes in precipitation ($\Delta P$).
+
+    #### **Thermodynamic Derivation of Vapor Pressure Deficit (VPD)**
+    Because the relationship between air temperature and its water-holding capacity (saturation vapor pressure) is governed by the non-linear Clausius-Clapeyron relationship, calculating VPD from a pre-averaged temperature introduces a mathematical artifact. To preserve biophysical accuracy, daily maximum VPD, which represents peak atmospheric thirst and the moment of highest transpirational stress for the canopy, must be calculated at the daily temporal resolution before any long-term climatological averaging occurs.
+    The derivation adheres to ASCE standards for agricultural and forest thermodynamics.
+    First, the **Saturation Vapor Pressure** ($e_s$) in kilopascals (kPa) is calculated from the daily maximum temperature ($T_{max}$):
+    """)
+    
+    st.latex(r"$$e_s(T_{max}) = 0.6108 \cdot \exp\left(\frac{17.27 \cdot T_{max}}{T_{max} + 237.3}\right)$$")
+
+    st.markdown(r"""
+    Next, the **Actual Vapor Pressure** ($e_a$) is derived. While minimum daily relative humidity ideally pairs with maximum daily temperature, the use of daily mean relative humidity ($hurs$) is an accepted approximation for long-term climate delta projections:
+    """)
+    
+    st.latex(r"$$e_a = e_s(T_{max}) \cdot \left(\frac{RH}{100}\right)$$")
+
+    st.markdown(r"""
+    Finally, the **Vapor Pressure Deficit (VPD)** is calculated as the absolute difference between the air's holding capacity and its actual moisture content:
+    """)
+
+    st.latex(r"$$VPD = e_s - e_a = e_s(T_{max}) \cdot \left(1 - \frac{RH}{100}\right)$$")
+
+    st.markdown(r"""
+    Once daily VPD is calculated across the sequence, these values are temporally aggregated into the 20-year epochs. The final projected $\Delta VPD$ fed into the Random Forest regressor is the difference between the future epoch's mean VPD and the 1995–2014 baseline.    
     """)
 
 with st.expander("📖 User Guide: Output Interpretation"):
@@ -110,12 +152,12 @@ ssp_mapping = {'ssp126': 'SSP1-2.6', 'ssp245': 'SSP2-4.5', 'ssp370': 'SSP3-7.0',
 
 projection_matrix = {
     'Medium-Term (2041–2060)': {
-        'ssp126': (1.3, 14.24, 0.058), 'ssp245': (1.5, -9.48, 0.068),
-        'ssp370': (1.8, -45.81, 0.082), 'ssp585': (2.3, 1.36, 0.106)
+        'ssp126': (0.66, 2.12, 0.066), 'ssp245': (1.03, -0.72, 0.120),
+        'ssp370': (2.00, -11.02, 0.250), 'ssp585': (1.43, -5.37, 0.132)
     },
     'Long-Term (2081–2100)': {
-        'ssp126': (1.3, 17.12, 0.058), 'ssp245': (2.4, 6.88, 0.111),
-        'ssp370': (3.8, -81.32, 0.184), 'ssp585': (5.2, -5.11, 0.262)
+        'ssp126': (0.93, -1.30, 0.090), 'ssp245': (2.07, -2.26, 0.213),
+        'ssp370': (4.07, -19.06, 0.547), 'ssp585': (4.11, -7.20, 0.513)
     }
 }
 
@@ -135,8 +177,8 @@ if mode == 'IPCC Scenarios':
     ssp_key = st.sidebar.radio("Pathway", options=list(ssp_mapping.keys()), format_func=lambda x: ssp_mapping[x])
     dt, dp, dv = projection_matrix[period][ssp_key]
 elif mode == 'Custom Forcing':
-    dt = st.sidebar.slider('Δ Tmax (K)', 0.0, 6.0, 0.0)
-    dp = st.sidebar.slider('Δ Prec (kg/m²/mo)', -150, 100, 0)
+    dt = st.sidebar.slider('Δ Tmax (K)', 0.0, 8.0, 0.0)
+    dp = st.sidebar.slider('Δ Prec (kg/m²/mo)', -100, 100, 0)
     dv = st.sidebar.slider('Δ VPD (Pa)', 0.0, 1.0, 0.0)
 
 # --- 7. Predictive Run ---
@@ -217,6 +259,6 @@ st.caption(r"""
     <a href="https://doi.org/10.16904/envidat.690" target="_blank">WSL (VHM)</a> | 
     <a href="https://www.chelsa-climate.org/datasets/chelsa_monthly" target="_blank">CHELSA (Climate)</a> | 
     <a href="https://glad.earthengine.app/view/global-forest-change" target="_blank">Hansen Global Forest Change</a> | 
-    <a href="https://interactive-atlas.ipcc.ch/regional-information#eyJ0eXBlIjoiQVRMQVMiLCJjb21tb25zIjp7ImxhdCI6LTI2MjgyNTgsImxuZyI6LTE2MjE2ODgsInpvb20iOjMsInByb2oiOiJFUFNHOjU0MDMwIiwibW9kZSI6ImNvbXBsZXRlX2F0bGFzIn0sInByaW1hcnkiOnsic2NlbmFyaW8iOiJzc3A1ODUiLCJwZXJpb2QiOiIxLjUiLCJzZWFzb24iOiJ5ZWFyIiwiZGF0YXNldCI6IkNNSVA2IiwidmFyaWFibGUiOiJ0YXNtYXgiLCJ2YWx1ZVR5cGUiOiJBTk9NQUxZIiwiaGF0Y2hpbmciOiJTSU1QTEUiLCJyZWdpb25TZXQiOiJhcjYiLCJiYXNlbGluZSI6InByZUluZHVzdHJpYWwiLCJyZWdpb25zU2VsZWN0ZWQiOlsxN119LCJwbG90Ijp7ImFjdGl2ZVRhYiI6InRhYmxlIiwic2hvd2luZyI6dHJ1ZSwibWFzayI6Im5vbmUiLCJzY2F0dGVyWU1hZyI6IkFOT01BTFkiLCJzY2F0dGVyWVZhciI6InRhc21heCJ9fQ==" target="_blank">IPCC CMIP6</a>
+    <a href="https://storage.googleapis.com/cmip6/pangeo-cmip6.json" target="_blank">IPCC CMIP6</a>
 </div>
 """, unsafe_allow_html=True)
