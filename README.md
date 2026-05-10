@@ -84,6 +84,7 @@ $$FVS = \left(\frac{\sigma(H)_{2017} - \sigma(H)_{predicted}}{\sigma(H)_{2017}} 
     ├── 01_Bioclimatic_Grid_Standardization.ipynb
     ├── 02_Climate_Stressor_Feature_Engineering.ipynb
     ├── 03_Random_Forest_Calibration_and_SHAP.ipynb
+    ├── 04_IPCC_CIMP6_Armenia_Climate_Deltas_tasmax_pr_vpd.ipynb
     └── emissions.csv
 └── models/                    
     └── RF_FVS_Model.joblib              # Trained Random Forest Regressor
