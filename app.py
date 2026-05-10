@@ -83,7 +83,7 @@ with st.expander("🔬 Methodology: Computational Calibration & Bioclimatic Stac
         - **$\beta$ (Δ Tmax):** 31.4% (Metabolic Respiration Cost). Heat anomalies act as a compounding stressor, increasing the metabolic cost of maintenance respiration and limiting the net primary productivity required to sustain complex canopies.
         - **$\gamma$ (Δ Prec):** 33.7% (Hydraulic Stress). Precipitation acts as the structural stabilizer. SHAP dependence proves that negative anomalies (drought) collapse the structural prediction, while increased rainfall sustains complex variance.
 
-    ### **5. Future Scenario Projection: IPCC CMIP6 Data Acquisition & Aggregation**
+    ### **5. IPCC CMIP6 Data Acquisition & Aggregation**
     To project the calibrated structural model into future climate scenarios, the framework relies on the globally standardized Coupled Model Intercomparison Project Phase 6 (CMIP6). The following protocol defines how the predictive atmospheric anomalies ($\Delta$) were derived for the mid-century (2041–2060) and end-of-century (2081–2100) epochs.
     
     #### **5.1 Cloud-Native Data Acquisition (Pangeo Infrastructure)**
@@ -108,19 +108,19 @@ with st.expander("🔬 Methodology: Computational Calibration & Bioclimatic Stac
     First, the **Saturation Vapor Pressure** ($e_s$) in kilopascals (kPa) is calculated from the daily maximum temperature ($T_{max}$):
     """)
     
-    st.latex(r"$$e_s(T_{max}) = 0.6108 \cdot \exp\left(\frac{17.27 \cdot T_{max}}{T_{max} + 237.3}\right)$$")
+    st.latex(r"e_s(T_{max}) = 0.6108 \cdot \exp\left(\frac{17.27 \cdot T_{max}}{T_{max} + 237.3}\right)")
 
     st.markdown(r"""
     Next, the **Actual Vapor Pressure** ($e_a$) is derived. While minimum daily relative humidity ideally pairs with maximum daily temperature, the use of daily mean relative humidity ($hurs$) is an accepted approximation for long-term climate delta projections:
     """)
     
-    st.latex(r"$$e_a = e_s(T_{max}) \cdot \left(\frac{RH}{100}\right)$$")
+    st.latex(r"e_a = e_s(T_{max}) \cdot \left(\frac{RH}{100}\right)")
 
     st.markdown(r"""
     Finally, the **Vapor Pressure Deficit (VPD)** is calculated as the absolute difference between the air's holding capacity and its actual moisture content:
     """)
 
-    st.latex(r"$$VPD = e_s - e_a = e_s(T_{max}) \cdot \left(1 - \frac{RH}{100}\right)$$")
+    st.latex(r"VPD = e_s - e_a = e_s(T_{max}) \cdot \left(1 - \frac{RH}{100}\right)")
 
     st.markdown(r"""
     Once daily VPD is calculated across the sequence, these values are temporally aggregated into the 20-year epochs. The final projected $\Delta VPD$ fed into the Random Forest regressor is the difference between the future epoch's mean VPD and the 1995–2014 baseline.    
