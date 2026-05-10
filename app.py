@@ -178,7 +178,7 @@ if mode == 'IPCC Scenarios':
     ssp_key = st.sidebar.radio("Pathway", options=list(ssp_mapping.keys()), format_func=lambda x: ssp_mapping[x])
     dt, dp, dv = projection_matrix[period][ssp_key]
 elif mode == 'Custom Forcing':
-    dt = st.sidebar.slider('Δ Tmax (°C)', 0.0, 8.0, 0.0)
+    dt = st.sidebar.slider('Δ Tmax (°C)', -8.0, 8.0, 0.0)
     dp = st.sidebar.slider('Δ Prec (mm/mo)', -100, 100, 0)
     dv = st.sidebar.slider('Δ VPD (kPa)', 0.0, 1.0, 0.0)
 
