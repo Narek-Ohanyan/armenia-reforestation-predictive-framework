@@ -181,7 +181,7 @@ if mode == 'IPCC Scenarios':
 elif mode == 'Custom Forcing':
     dt = st.sidebar.slider('Δ Tmax (°C)', -5.0, 5.0, 0.0)
     dp = st.sidebar.slider('Δ Prec (mm/month)', -100, 100, 0)
-    dv = st.sidebar.slider('Δ VPD (kPa)', 0.0, 1.0, 0.0)
+    dv = st.sidebar.slider('Δ VPD (kPa)', 0.0, 1.5, 0.0)
 
 # --- 7. Predictive Run ---
 if mode == 'Historical Baseline':
