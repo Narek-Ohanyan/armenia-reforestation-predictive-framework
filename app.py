@@ -179,7 +179,7 @@ if mode == 'IPCC Scenarios':
     dt, dp, dv = projection_matrix[period][ssp_key]
 elif mode == 'Custom Forcing':
     dt = st.sidebar.slider('Δ Tmax (°C)', -8.0, 8.0, 0.0)
-    dp = st.sidebar.slider('Δ Prec (mm/mo)', -100, 100, 0)
+    dp = st.sidebar.slider('Δ Prec (mm/season)', -500, 500, 0)
     dv = st.sidebar.slider('Δ VPD (kPa)', 0.0, 1.0, 0.0)
 
 # --- 7. Predictive Run ---
@@ -192,7 +192,7 @@ else:
     X_in = pd.DataFrame({
         'Delta_VPD_GS': (df_forest['Delta_VPD_GS'] + dv).clip(upper=vmax_vpd),
         'Delta_Tmax_GS': (df_forest['Delta_Tmax_GS'] + dt).clip(upper=vmax_temp),
-        'Delta_P_GS': (df_forest['Delta_P_GS'] + (dp * 5)).clip(lower=vmin_prec) 
+        'Delta_P_GS': (df_forest['Delta_P_GS'] + dp).clip(lower=vmin_prec) 
     })
     y_pred = rf_model.predict(X_in)
     
