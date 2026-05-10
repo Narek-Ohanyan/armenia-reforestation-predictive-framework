@@ -64,11 +64,11 @@ with st.expander("🔬 Methodology: Computational Calibration & Bioclimatic Stac
     
     st.latex(r"Stress(p, s) = \int_{May}^{Sept} \frac{1}{\sigma(H)} \left( \alpha \cdot \Delta vpd(p, m, s) + \beta \cdot \Delta T_{max}(p, m, s) + \gamma \cdot \Delta P(p, m, s) \right) dm")
 
-  st.markdown("""
+  st.markdown(r"""
     By filtering the multidimensional data to these core phenological months, the algorithm is forced to evaluate only the atmospheric conditions present when the ecosystem is actively photosynthesizing, pumping water, and therefore physically vulnerable to stress.
     """)
-    
-    st.markdown(r"""
+
+  st.markdown(r"""
     ### **3. Bioclimatic Predictors & Feature Engineering**
     * **$\Delta$ Variables:** Computed as the absolute difference between the target projection years (whether the 2000–2018 hindcast or the 2041–2060/2081–2100 IPCC scenarios) and the historical climatological baseline. The model is trained purely on the magnitude of deviation from the established norm.
     * **$\sigma(H)^{-1}$ Normalization:** By multiplying the stress integral by the inverse of the standard deviation of canopy height, the framework mathematically accounts for the biophysical reality of tall trees. Complex, high vertical structures face higher gravitational and hydraulic friction; therefore, they exhibit a higher relative vulnerability to atmospheric demand and cavitation than shorter, stunted canopies.
