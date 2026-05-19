@@ -22,7 +22,7 @@ The study utilizes a high-resolution remote sensing architecture:
 ### 2. Integrated Climate Stressor Formula
 Vulnerability is governed by the cumulative climatic stressor intensity relative to initial structural complexity. The total stress for a pixel ($p$) under a scenario ($s$) is calculated as:
 
-$$Stress(p, s) = \int_{May}^{Sept} \frac{1}{\sigma(H)} \left( \alpha \cdot \Delta vpd(p, m, s) + \beta \cdot \Delta T_{max}(p, m, s) + \gamma \cdot \Delta P(p, m, s) \right) dm$$
+$$Stress(p, s) = \int_{May}^{Sept} \frac{1}{\sigma(H)} \left( \alpha \cdot \Delta vpd(p, m, s) + \beta \cdot \Delta T_{max}(p, m, s) - \gamma \cdot \Delta P(p, m, s) \right) dm$$
 
 ### 3. Machine Learning Architecture
 A **Random Forest Regressor** (500 estimators) maps stressors to structural outcomes ($R^2 = 0.292$ | MAE = 1.799m). Feature importance is derived via SHAP values:
